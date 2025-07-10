@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { SectionHeader } from "@/components/ui/section-header";
+import { SectionHeader } from "@/components/common/section-header";
 import { Scissors, Palette, Briefcase, Dumbbell } from "lucide-react";
 
 export function WhoIsForSection() {

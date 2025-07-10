@@ -1,4 +1,4 @@
-import { SectionHeader } from "@/components/ui/section-header";
+import { SectionHeader } from "@/components/common/section-header";
 
 export function HowItWorksSection() {
   return (

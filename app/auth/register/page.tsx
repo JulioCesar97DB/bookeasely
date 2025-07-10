@@ -19,7 +19,7 @@ import {
   UserCheck,
   Clock,
 } from "lucide-react";
-import { SectionHeader } from "@/components/ui/section-header";
+import { SectionHeader } from "@/components/common/section-header";
 
 export default function RegisterPage() {
   const router = useRouter();
