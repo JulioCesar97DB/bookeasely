@@ -27,11 +27,12 @@ export const pricingPlans = [
   {
     name: "Individual Free",
     price: "0€",
-    description: "Perfect for getting started as an individual or small business.",
+    description: "Perfect for getting started as a solo professional",
     features: [
-      "1 staff member",
-      "Unlimited bookings",
-      "Public booking page",
+      "1 staff member (you)",
+      "Up to 50 bookings/month",
+      "Basic booking page",
+      "Email notifications",
     ],
     popular: false,
     icon: User,
@@ -44,11 +45,13 @@ export const pricingPlans = [
   {
     name: "Individual Pro",
     price: "9€/mo",
-    description: "For solo professionals who want more control and features.",
+    description: "For solo professionals who want more control and features",
     features: [
+      "Unlimited bookings",
       "Advanced availability settings",
-      "SMS/email reminders",
-      "Custom booking links",
+      "SMS & email reminders",
+      "Custom booking page",
+      "Analytics dashboard",
     ],
     popular: true,
     icon: User,
@@ -61,12 +64,12 @@ export const pricingPlans = [
   {
     name: "Business",
     price: "19€/mo",
-    description: "For teams or businesses managing multiple staff and bookings.",
+    description: "For teams or businesses managing multiple staff and bookings",
     features: [
-      "Unlimited staff members",
-      "Team dashboard",
-      "Priority support",
-      "Advanced analytics (soon)",
+      "Add and manage multiple staff",
+      "Assign bookings to team members",
+      "Business dashboard & team scheduling",
+      "Multi-location support",
     ],
     popular: false,
     icon: Users,
@@ -77,3 +80,27 @@ export const pricingPlans = [
     gradientColor: "from-chart-3/5 to-chart-1/5",
   },
 ];
+
+export const accountTypes = {
+  INDIVIDUAL_FREE: 'individual-free',
+  INDIVIDUAL_PRO: 'individual-pro',
+  BUSINESS: 'business'
+} as const;
+
+export type AccountType = typeof accountTypes[keyof typeof accountTypes];
+
+// Plan details for account types
+export const planDetails = {
+  [accountTypes.INDIVIDUAL_PRO]: {
+    name: "Individual Pro",
+    description: "Unlock advanced features and unlimited bookings for your solo practice",
+  },
+  [accountTypes.INDIVIDUAL_FREE]: {
+    name: "Individual Free", 
+    description: "Start your journey as a solo professional with our free plan",
+  },
+  [accountTypes.BUSINESS]: {
+    name: "Business",
+    description: "Perfect for teams and businesses managing multiple staff and bookings",
+  },
+} as const;

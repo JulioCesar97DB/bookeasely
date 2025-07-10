@@ -1,7 +1,8 @@
 "use client";
 
 import { SectionHeader } from "@/components/common/section-header";
-import IndividualAccountCard from "@/components/auth/IndividualAccountCard";
+import IndividualFreeAccountCard from "@/components/auth/IndividualFreeAccountCard";
+import IndividualProAccountCard from "@/components/auth/IndividualAccountCard";
 import BusinessAccountCard from "@/components/auth/BusinessAccountCard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -12,7 +13,7 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-8 max-w-8xl">
         <Button
           variant="ghost"
           onClick={() => router.back()}
@@ -23,14 +24,16 @@ export default function RegisterPage() {
         </Button>
 
         <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
-          <div className="w-full space-y-8">
+          <div className="w-full space-y-12">
             <SectionHeader
               title="Create your account"
               description=" Choose the type of account that best fits your business"
             />
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <IndividualAccountCard />
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 pt-8">
+              <IndividualFreeAccountCard />
+
+              <IndividualProAccountCard />
 
               <BusinessAccountCard />
             </div>

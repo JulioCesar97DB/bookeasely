@@ -7,19 +7,36 @@ import { ArrowLeft, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { businessCategories } from "@/constants";
+import { businessCategories, accountTypes, planDetails } from "@/constants";
 import {
   individualRegistrationSchema,
   type IndividualRegistrationData,
 } from "@/lib/validations";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { SectionHeader } from "@/components/common/section-header";
+import { useSearchParams } from "next/navigation";
 
 export default function IndividualRegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+
+  const accountType = searchParams.get("type") as string;
+  const isValidType =
+    accountType === accountTypes.INDIVIDUAL_FREE ||
+    accountType === accountTypes.INDIVIDUAL_PRO;
+
+  const currentPlanDetails =
+    planDetails[accountType as keyof typeof planDetails] ||
+    planDetails[accountTypes.INDIVIDUAL_FREE];
+
+  useEffect(() => {
+    if (!isValidType) {
+      router.push("/auth/register");
+    }
+  }, [accountType, isValidType, router]);
 
   const form = useForm<IndividualRegistrationData>({
     resolver: zodResolver(individualRegistrationSchema),
@@ -29,6 +46,9 @@ export default function IndividualRegisterPage() {
       password: "",
       phoneNumber: "",
       serviceCategory: "",
+      accountType: (isValidType
+        ? accountType
+        : accountTypes.INDIVIDUAL_FREE) as "individual-free" | "individual-pro",
       agreeToTerms: false,
     },
   });
@@ -67,8 +87,8 @@ export default function IndividualRegisterPage() {
                 <User className="h-10 w-10 text-white" />
               </div>
               <SectionHeader
-                title="Create Individual Account"
-                description="Join BookEasely as a solo professional and start managing your bookings"
+                title={`Create ${currentPlanDetails.name} Account`}
+                description={currentPlanDetails.description}
                 className="text-center lg:text-left"
               />
             </div>
@@ -162,7 +182,7 @@ export default function IndividualRegisterPage() {
                       >
                         {isLoading
                           ? "Creating Account..."
-                          : "Create Individual Account"}
+                          : `Create ${currentPlanDetails.name} Account`}
                       </Button>
 
                       <p className="text-center text-sm text-muted-foreground">

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { accountTypes } from "@/constants";
 
 export const individualRegistrationSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -10,6 +11,10 @@ export const individualRegistrationSchema = z.object({
     .regex(/\d/, "Password must contain at least one number"),
   phoneNumber: z.string().min(10, "Please enter a valid phone number"),
   serviceCategory: z.string().optional(),
+  accountType: z.enum([
+    accountTypes.INDIVIDUAL_FREE,
+    accountTypes.INDIVIDUAL_PRO,
+  ]),
   agreeToTerms: z
     .boolean()
     .refine(
