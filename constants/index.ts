@@ -1,3 +1,5 @@
+import { User, Users } from "lucide-react";
+
 export const businessCategories = [
   "Barber",
   "Hair Salon",
@@ -20,3 +22,58 @@ export const businessCategories = [
   "Driving Instructor",
   "Other",
 ]
+
+export const pricingPlans = [
+  {
+    name: "Free",
+    price: "0€",
+    description: "Perfect for getting started as an individual or small business.",
+    features: [
+      "1 staff member",
+      "Unlimited bookings",
+      "Public booking page",
+    ],
+    popular: false,
+    icon: User,
+    color: "from-green-500 to-green-600",
+    bgColor: "bg-muted/30",
+    hoverBgColor: "bg-muted/50",
+    borderColor: "border-chart-4/20",
+    gradientColor: "from-chart-4/5 to-chart-5/5",
+  },
+  {
+    name: "Pro",
+    price: "9€/mo",
+    description: "For solo professionals who want more control and features.",
+    features: [
+      "Advanced availability settings",
+      "SMS/email reminders",
+      "Custom booking links",
+    ],
+    popular: true,
+    icon: User,
+    color: "from-primary to-chart-2",
+    bgColor: "bg-primary/10",
+    hoverBgColor: "bg-primary/20",
+    borderColor: "border-primary/20",
+    gradientColor: "from-primary/5 to-chart-2/5",
+  },
+  {
+    name: "Business",
+    price: "19€/mo",
+    description: "For teams or businesses managing multiple staff and bookings.",
+    features: [
+      "Unlimited staff members",
+      "Team dashboard",
+      "Priority support",
+      "Advanced analytics (soon)",
+    ],
+    popular: false,
+    icon: Users,
+    color: "from-purple-500 to-purple-600",
+    bgColor: "bg-muted/30",
+    hoverBgColor: "bg-muted/50",
+    borderColor: "border-chart-3/20",
+    gradientColor: "from-chart-3/5 to-chart-1/5",
+  },
+];

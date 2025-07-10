@@ -4,6 +4,7 @@ import {
   WhoIsForSection,
   HowItWorksSection,
   FeaturesSection,
+  PricingSection,
   CTASection,
   Footer,
 } from "@/components/landing";
@@ -16,6 +17,7 @@ export default function LandingPage() {
       <WhoIsForSection />
       <HowItWorksSection />
       <FeaturesSection />
+      <PricingSection />
       <CTASection />
       <Footer />
     </main>

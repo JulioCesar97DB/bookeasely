@@ -41,6 +41,12 @@ export function Header() {
           >
             Features
           </Link>
+          <Link
+            href="#pricing"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Pricing
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
