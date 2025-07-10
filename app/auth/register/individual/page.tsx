@@ -10,39 +10,18 @@ import { ArrowLeft, User, Eye, EyeOff } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { useState } from "react"
 import Image from "next/image"
-
-const formSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  phoneNumber: z.string().min(10, "Please enter a valid phone number"),
-  serviceCategory: z.string().optional(),
-  agreeToTerms: z.boolean().refine((val) => val === true, "You must agree to the terms and conditions"),
-})
-
-type FormData = z.infer<typeof formSchema>
-
-const serviceCategories = [
-  "Beauty & Personal Care",
-  "Health & Wellness",
-  "Professional Services",
-  "Creative Services",
-  "Fitness & Sports",
-  "Education & Training",
-  "Home Services",
-  "Other",
-]
+import { businessCategories } from "@/constants"
+import { individualRegistrationSchema, type IndividualRegistrationData } from "@/lib/validations"
 
 export default function IndividualRegisterPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<IndividualRegistrationData>({
+    resolver: zodResolver(individualRegistrationSchema),
     defaultValues: {
       fullName: "",
       email: "",
@@ -53,7 +32,7 @@ export default function IndividualRegisterPage() {
     },
   })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: IndividualRegistrationData) => {
     setIsLoading(true)
     try {
       // Simulate API call
@@ -206,7 +185,7 @@ export default function IndividualRegisterPage() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {serviceCategories.map((category) => (
+                                {businessCategories.map((category) => (
                                   <SelectItem key={category} value={category}>
                                     {category}
                                   </SelectItem>

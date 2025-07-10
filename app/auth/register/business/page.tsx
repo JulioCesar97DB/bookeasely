@@ -10,43 +10,20 @@ import { ArrowLeft, Users, Eye, EyeOff, Building2, User } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
 import { useState } from "react"
 import Image from "next/image"
+import { businessCategories } from "@/constants"
+import { businessRegistrationSchema, type BusinessRegistrationData } from "@/lib/validations"
 
-const formSchema = z.object({
-  businessName: z.string().min(2, "Business name must be at least 2 characters"),
-  ownerName: z.string().optional(),
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  phoneNumber: z.string().min(10, "Please enter a valid phone number"),
-  businessCategory: z.string().optional(),
-  teamMembers: z.string().optional(),
-  agreeToTerms: z.boolean().refine((val) => val === true, "You must agree to the terms and conditions"),
-})
 
-type FormData = z.infer<typeof formSchema>
-
-const businessCategories = [
-  "Beauty & Personal Care",
-  "Health & Wellness",
-  "Professional Services",
-  "Creative Services",
-  "Fitness & Sports",
-  "Education & Training",
-  "Home Services",
-  "Restaurant & Food",
-  "Retail",
-  "Other",
-]
 
 export default function BusinessRegisterPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<BusinessRegistrationData>({
+    resolver: zodResolver(businessRegistrationSchema),
     defaultValues: {
       businessName: "",
       ownerName: "",
@@ -59,7 +36,7 @@ export default function BusinessRegisterPage() {
     },
   })
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: BusinessRegistrationData) => {
     setIsLoading(true)
     try {
       // Simulate API call
