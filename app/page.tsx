@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -15,8 +17,11 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LandingPage() {
+  const router = useRouter();
+
   return (
     <main className="bg-background">
       {/* Header */}
@@ -53,7 +58,9 @@ export default function LandingPage() {
             <Button variant="ghost" className="hidden sm:flex">
               Sign In
             </Button>
-            <Button>Get Started</Button>
+            <Button onClick={() => router.push("/auth/register")}>
+              Get Started
+            </Button>
           </div>
         </nav>
       </header>
@@ -75,11 +82,15 @@ export default function LandingPage() {
             </p>
 
             <div className="space-y-4">
-              <Button size="lg" className="text-lg px-8 py-6">
+              <Button
+                size="lg"
+                className="text-lg px-8 py-6"
+                onClick={() => router.push("/auth/register")}
+              >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <p className="text-sm text-muted-foreground/80">
+              <p className="text-sm text-muted-foreground/80 mb-4">
                 Free 14-day trial • No credit card required
               </p>
             </div>
