@@ -9,7 +9,7 @@ export function HeroSection() {
   const router = useRouter();
 
   return (
-    <section className="min-h-screen flex items-center pt-16">
+    <section id="home" className="min-h-screen flex items-center pt-16">
       <div className="container mx-auto px-8 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-8 text-center lg:text-left">
           <h1 className="text-5xl lg:text-7xl font-bold text-foreground leading-tight">

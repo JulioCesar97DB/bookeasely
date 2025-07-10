@@ -18,6 +18,18 @@ export function Header() {
 
         <div className="hidden md:flex items-center space-x-8">
           <Link
+            href="#home"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="#who-is-for"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Who It&apos;s For
+          </Link>
+          <Link
             href="#how-it-works"
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -28,13 +40,6 @@ export function Header() {
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             Features
-          </Link>
-
-          <Link
-            href="#pricing"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Pricing
           </Link>
         </div>
 
