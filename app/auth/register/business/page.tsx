@@ -1,26 +1,25 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { ArrowLeft, Users, Eye, EyeOff, Building2, User } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
-import Image from "next/image"
-import { businessCategories } from "@/constants"
-import { businessRegistrationSchema, type BusinessRegistrationData } from "@/lib/validations"
-
-
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { ArrowLeft, Users, Building2, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import Image from "next/image";
+import { businessCategories } from "@/constants";
+import {
+  businessRegistrationSchema,
+  type BusinessRegistrationData,
+} from "@/lib/validations";
+import { ReusableFormField } from "@/components/common/ReusableFormField";
+import { SectionHeader } from "@/components/common/section-header";
 
 export default function BusinessRegisterPage() {
-  const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<BusinessRegistrationData>({
     resolver: zodResolver(businessRegistrationSchema),
@@ -34,27 +33,26 @@ export default function BusinessRegisterPage() {
       teamMembers: "",
       agreeToTerms: false,
     },
-  })
+  });
 
   const onSubmit = async (data: BusinessRegistrationData) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log("Business registration data:", data)
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log("Business registration data:", data);
       // Redirect to dashboard or success page
-      router.push("/dashboard")
+      router.push("/dashboard");
     } catch (error) {
-      console.error("Registration failed:", error)
+      console.error("Registration failed:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-1/5">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => router.back()}
@@ -64,27 +62,25 @@ export default function BusinessRegisterPage() {
           Back to account selection
         </Button>
 
-        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-5 gap-12 items-start min-h-[calc(100vh-200px)]">
-          {/* Left Side - Form (3 columns) */}
           <div className="lg:col-span-3 space-y-8">
-            {/* Header */}
-            <div className="text-center lg:text-left space-y-6">
+            <div className="flex flex-col sm:flex-row text-center lg:text-left space-y-6 gap-6">
               <div className="w-20 h-20 bg-gradient-to-br from-chart-1 to-chart-3 rounded-3xl flex items-center justify-center mx-auto lg:mx-0">
                 <Users className="h-10 w-10 text-white" />
               </div>
-              <div className="space-y-2">
-                <h1 className="text-4xl lg:text-5xl font-bold text-foreground">Create Business Account</h1>
-                <p className="text-xl text-muted-foreground">
-                  Join BookEasely with your team and manage multiple staff members
-                </p>
-              </div>
+
+              <SectionHeader
+                title="Create Business Account"
+                description="Join BookEasely with your team and manage multiple staff members"
+                className="text-center lg:text-left"
+              />
             </div>
 
-            {/* Registration Form */}
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                {/* Business Information Section */}
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
                 <Card className="shadow-lg">
                   <CardContent className="pt-8">
                     <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center gap-3">
@@ -95,88 +91,45 @@ export default function BusinessRegisterPage() {
                     </h2>
 
                     <div className="grid gap-6">
-                      {/* Business Name */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="businessName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Business Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your business name" className="h-12" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Business Name"
+                        placeholder="Enter your business name"
+                        type="input"
+                        required
                       />
 
-                      {/* Owner Name */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="ownerName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Owner Name (Optional)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter owner's name" className="h-12" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Owner Name (Optional)"
+                        placeholder="Enter owner's name"
+                        type="input"
                       />
 
-                      {/* Business Category */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="businessCategory"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Business Category (Optional)</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="h-12">
-                                  <SelectValue placeholder="Select your business category" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {businessCategories.map((category) => (
-                                  <SelectItem key={category} value={category}>
-                                    {category}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Business Category (Optional)"
+                        placeholder="Select your business category"
+                        type="select"
+                        options={businessCategories}
                       />
 
-                      {/* Number of Team Members */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="teamMembers"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Number of Team Members (Optional)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                placeholder="How many team members?"
-                                min="1"
-                                max="100"
-                                className="h-12"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Number of Team Members (Optional)"
+                        placeholder="How many team members?"
+                        type="number"
+                        min="1"
+                        max="100"
                       />
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Contact Information Section */}
                 <Card className="shadow-lg">
                   <CardContent className="pt-8">
                     <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center gap-3">
@@ -187,100 +140,53 @@ export default function BusinessRegisterPage() {
                     </h2>
 
                     <div className="grid gap-6">
-                      {/* Email */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Email</FormLabel>
-                            <FormControl>
-                              <Input type="email" placeholder="Enter business email" className="h-12" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Email"
+                        placeholder="Enter business email"
+                        type="email"
+                        required
                       />
 
-                      {/* Phone Number */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="phoneNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Phone Number</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter business phone number" className="h-12" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Phone Number"
+                        placeholder="Enter business phone number"
+                        type="input"
+                        required
                       />
 
-                      {/* Password */}
-                      <FormField
+                      <ReusableFormField
                         control={form.control}
                         name="password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-medium">Password</FormLabel>
-                            <FormControl>
-                              <div className="relative">
-                                <Input
-                                  type={showPassword ? "text" : "password"}
-                                  placeholder="Create a password"
-                                  className="h-12 pr-12"
-                                  {...field}
-                                />
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  size="sm"
-                                  className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent"
-                                  onClick={() => setShowPassword(!showPassword)}
-                                >
-                                  {showPassword ? (
-                                    <EyeOff className="h-4 w-4 text-muted-foreground" />
-                                  ) : (
-                                    <Eye className="h-4 w-4 text-muted-foreground" />
-                                  )}
-                                </Button>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
+                        label="Password"
+                        placeholder="Create a password"
+                        type="password"
+                        required
                       />
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Terms and Submit Section */}
                 <Card className="shadow-lg">
                   <CardContent className="pt-8 space-y-6">
-                    {/* Terms and Conditions */}
-                    <FormField
+                    <ReusableFormField
                       control={form.control}
                       name="agreeToTerms"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                          <FormControl>
-                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel className="text-base font-normal">
-                              I agree to the{" "}
-                              <Button variant="link" className="p-0 h-auto text-primary underline">
-                                terms and conditions
-                              </Button>
-                            </FormLabel>
-                            <FormMessage />
-                          </div>
-                        </FormItem>
-                      )}
-                    />
+                      label="I agree to the terms and conditions"
+                      type="checkbox"
+                    >
+                      I agree to the{" "}
+                      <Button
+                        variant="link"
+                        className="p-0 h-auto text-primary underline"
+                      >
+                        terms and conditions
+                      </Button>
+                    </ReusableFormField>
 
-                    {/* Submit Button */}
                     <div className="space-y-4">
                       <Button
                         type="submit"
@@ -288,12 +194,17 @@ export default function BusinessRegisterPage() {
                         size="lg"
                         disabled={isLoading}
                       >
-                        {isLoading ? "Creating Account..." : "Create Business Account"}
+                        {isLoading
+                          ? "Creating Account..."
+                          : "Create Business Account"}
                       </Button>
 
                       <p className="text-center text-sm text-muted-foreground">
                         Already have an account?{" "}
-                        <Button variant="link" className="p-0 h-auto text-primary">
+                        <Button
+                          variant="link"
+                          className="p-0 h-auto text-primary"
+                        >
                           Sign in
                         </Button>
                       </p>
@@ -304,7 +215,6 @@ export default function BusinessRegisterPage() {
             </Form>
           </div>
 
-          {/* Right Side - Large Image (2 columns) */}
           <div className="hidden lg:flex lg:col-span-2 items-center justify-center h-full">
             <div className="relative w-full h-full min-h-[800px] flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-br from-chart-1/20 to-chart-3/20 rounded-3xl blur-3xl"></div>
@@ -317,9 +227,12 @@ export default function BusinessRegisterPage() {
                   className="w-full h-full object-cover rounded-3xl shadow-2xl"
                 />
                 <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-                  <h3 className="text-xl font-semibold text-muted-foreground mb-2">Grow Your Business</h3>
+                  <h3 className="text-xl font-semibold text-muted-foreground mb-2">
+                    Grow Your Business
+                  </h3>
                   <p className="text-muted-foreground">
-                    Manage your team, streamline appointments, and scale your business with BookEasely s powerful tools.
+                    Manage your team, streamline appointments, and scale your
+                    business with BookEasely s powerful tools.
                   </p>
                 </div>
               </div>
@@ -328,5 +241,5 @@ export default function BusinessRegisterPage() {
         </div>
       </div>
     </main>
-  )
+  );
 }

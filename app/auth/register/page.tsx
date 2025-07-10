@@ -3,29 +3,44 @@
 import { SectionHeader } from "@/components/common/section-header";
 import IndividualAccountCard from "@/components/auth/IndividualAccountCard";
 import BusinessAccountCard from "@/components/auth/BusinessAccountCard";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl space-y-8">
-        {/* Header */}
-        <SectionHeader
-          title="Create your account"
-          description=" Choose the type of account that best fits your business"
-        />
+    <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <Button
+          variant="ghost"
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to start
+        </Button>
 
-        {/* Account Type Selection */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <IndividualAccountCard />
+        <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+          <div className="w-full space-y-8">
+            <SectionHeader
+              title="Create your account"
+              description=" Choose the type of account that best fits your business"
+            />
 
-          <BusinessAccountCard />
-        </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <IndividualAccountCard />
 
-        {/* Footer Text */}
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground/80">
-            You can always upgrade or change your account type later
-          </p>
+              <BusinessAccountCard />
+            </div>
+
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground/80">
+                You can always upgrade or change your account type later
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </main>
