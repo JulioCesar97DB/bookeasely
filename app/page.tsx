@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { SectionHeader } from "@/components/ui/section-header";
 import {
   Calendar,
   Users,
@@ -111,19 +112,14 @@ export default function LandingPage() {
       {/* Who This Is For Section */}
       <section className="py-24 bg-gradient-to-br from-muted/20 to-chart-4/5">
         <div className="container mx-auto px-4 text-center space-y-16">
-          <div className="space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
-              Perfect for professionals like you
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Whether you are flying solo or managing a small team
-            </p>
-          </div>
+          <SectionHeader
+            title="Perfect for professionals like you"
+            description="Whether you are flying solo or managing a small team"
+          />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/20">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Scissors className="h-8 w-8 text-primary" />
@@ -137,9 +133,8 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-chart-1/20">
               <div className="absolute inset-0 bg-gradient-to-br from-chart-1/5 to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-1/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-1/20 transition-colors">
                   <Palette className="h-8 w-8 text-chart-1" />
@@ -153,9 +148,8 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-primary/20">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-3/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-3/20 transition-colors">
                   <Briefcase className="h-8 w-8 text-chart-3" />
@@ -169,9 +163,8 @@ export default function LandingPage() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <Card className="group relative hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-2 hover:border-chart-1/20">
               <div className="absolute inset-0 bg-gradient-to-br from-chart-1/5 to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-5/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-5/20 transition-colors">
                   <Dumbbell className="h-8 w-8 text-chart-5" />
@@ -191,14 +184,11 @@ export default function LandingPage() {
       {/* How It Works Section */}
       <section id="how-it-works" className="py-24">
         <div className="container mx-auto px-4 text-center space-y-16">
-          <div className="space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
-              How it works
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Get started in minutes, not hours
-            </p>
-          </div>
+          <SectionHeader
+            title="How it works"
+            description="Get started in minutes, not hours"
+            titleClassName="text-4xl lg:text-5xl font-bold text-foreground"
+          />
 
           <div className="grid md:grid-cols-3 gap-12">
             <div className="space-y-6">
@@ -249,14 +239,10 @@ export default function LandingPage() {
         className="py-24 bg-gradient-to-br from-chart-2/5 to-muted/20"
       >
         <div className="container mx-auto px-4 text-center space-y-16">
-          <div className="space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
-              Everything you need to manage bookings
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Powerful features designed for modern professionals
-            </p>
-          </div>
+          <SectionHeader
+            title="Everything you need to manage bookings"
+            description="Powerful features designed for modern professionals"
+          />
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
@@ -299,10 +285,19 @@ export default function LandingPage() {
             ].map((feature, index) => (
               <Card
                 key={index}
-                className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                className={`group relative hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 ${
+                  index % 2 === 0
+                    ? "hover:border-primary/20"
+                    : "hover:border-chart-1/20"
+                }`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${
+                    index % 2 === 0
+                      ? "from-primary/5 to-chart-2/5"
+                      : "from-chart-1/5 to-chart-3/5"
+                  } opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                />
                 <CardContent className="pt-8 pb-6 space-y-4">
                   <feature.icon
                     className={`h-12 w-12 text-${feature.color} mx-auto`}

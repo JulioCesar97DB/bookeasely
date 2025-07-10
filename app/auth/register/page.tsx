@@ -19,6 +19,7 @@ import {
   UserCheck,
   Clock,
 } from "lucide-react";
+import { SectionHeader } from "@/components/ui/section-header";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,14 +28,10 @@ export default function RegisterPage() {
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl space-y-8">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
-            Create your account
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose the type of account that best fits your business
-          </p>
-        </div>
+        <SectionHeader
+          title="Create your account"
+          description=" Choose the type of account that best fits your business"
+        />
 
         {/* Account Type Cards */}
         <div className="grid md:grid-cols-2 gap-8">
