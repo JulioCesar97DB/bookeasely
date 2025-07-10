@@ -12,7 +12,7 @@ const fontSans = FontSans({
 
 
 export const metadata: Metadata = {
-  title: "BookEase - Appointment & Booking Management",
+  title: "BookEasely - Appointment & Booking Management",
   description:
     "Comprehensive platform for managing appointments, bookings and schedules for businesses and freelancers",
 };
