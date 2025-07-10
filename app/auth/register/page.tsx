@@ -1,23 +1,36 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useRouter } from "next/navigation"
-import { User, Users, Calendar, Bell, Settings, BarChart3, UserCheck, Clock } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import {
+  User,
+  Users,
+  Calendar,
+  Bell,
+  Settings,
+  BarChart3,
+  UserCheck,
+  Clock,
+} from "lucide-react";
 
 export default function RegisterPage() {
-  const router = useRouter()
-
-  const handleAccountTypeSelection = (type: "individual" | "business") => {
-    router.push(`/auth/register/${type}`)
-  }
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground">Create your account</h1>
+          <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
+            Create your account
+          </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Choose the type of account that best fits your business
           </p>
@@ -35,7 +48,9 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <CardTitle className="text-2xl font-bold text-foreground">Individual</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">
+                  Individual
+                </CardTitle>
                 <CardDescription className="text-muted-foreground">
                   Perfect for solo professionals and freelancers
                 </CardDescription>
@@ -49,7 +64,9 @@ export default function RegisterPage() {
                     <Calendar className="h-4 w-4 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Manage your own bookings</h4>
+                    <h4 className="font-semibold text-foreground">
+                      Manage your own bookings
+                    </h4>
                     <p className="text-sm text-muted-foreground">
                       Complete control over your schedule and appointments
                     </p>
@@ -61,8 +78,12 @@ export default function RegisterPage() {
                     <Settings className="h-4 w-4 text-chart-2" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Customize services & availability</h4>
-                    <p className="text-sm text-muted-foreground">Set your own prices, durations, and working hours</p>
+                    <h4 className="font-semibold text-foreground">
+                      Customize services & availability
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Set your own prices, durations, and working hours
+                    </p>
                   </div>
                 </div>
 
@@ -71,14 +92,18 @@ export default function RegisterPage() {
                     <Bell className="h-4 w-4 text-chart-4" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Get notified about appointments</h4>
-                    <p className="text-sm text-muted-foreground">Instant notifications for new bookings and changes</p>
+                    <h4 className="font-semibold text-foreground">
+                      Get notified about appointments
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Instant notifications for new bookings and changes
+                    </p>
                   </div>
                 </div>
               </div>
 
               <Button
-                onClick={() => handleAccountTypeSelection("individual")}
+                onClick={() => router.push("/auth/register/individual")}
                 className="w-full h-12 text-lg font-semibold group-hover:scale-105 transition-transform duration-300"
                 size="lg"
               >
@@ -97,7 +122,9 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <CardTitle className="text-2xl font-bold text-foreground">Business</CardTitle>
+                <CardTitle className="text-2xl font-bold text-foreground">
+                  Business
+                </CardTitle>
                 <CardDescription className="text-muted-foreground">
                   Ideal for teams and companies with multiple staff
                 </CardDescription>
@@ -111,8 +138,12 @@ export default function RegisterPage() {
                     <UserCheck className="h-4 w-4 text-chart-1" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Add and manage multiple staff</h4>
-                    <p className="text-sm text-muted-foreground">Invite team members and manage their profiles</p>
+                    <h4 className="font-semibold text-foreground">
+                      Add and manage multiple staff
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Invite team members and manage their profiles
+                    </p>
                   </div>
                 </div>
 
@@ -121,7 +152,9 @@ export default function RegisterPage() {
                     <Clock className="h-4 w-4 text-chart-3" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Assign bookings to team members</h4>
+                    <h4 className="font-semibold text-foreground">
+                      Assign bookings to team members
+                    </h4>
                     <p className="text-sm text-muted-foreground">
                       Let clients choose staff or auto-assign appointments
                     </p>
@@ -133,14 +166,18 @@ export default function RegisterPage() {
                     <BarChart3 className="h-4 w-4 text-chart-5" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-foreground">Business dashboard & team scheduling</h4>
-                    <p className="text-sm text-muted-foreground">Advanced analytics and team performance insights</p>
+                    <h4 className="font-semibold text-foreground">
+                      Business dashboard & team scheduling
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Advanced analytics and team performance insights
+                    </p>
                   </div>
                 </div>
               </div>
 
               <Button
-                onClick={() => handleAccountTypeSelection("business")}
+                onClick={() => router.push("/auth/register/business")}
                 variant="outline"
                 className="w-full h-12 text-lg font-semibold border-2 hover:bg-chart-1/10 hover:border-chart-1/30 group-hover:scale-105 transition-all duration-300"
                 size="lg"
@@ -153,9 +190,11 @@ export default function RegisterPage() {
 
         {/* Footer Text */}
         <div className="text-center">
-          <p className="text-sm text-muted-foreground/80">You can always upgrade or change your account type later</p>
+          <p className="text-sm text-muted-foreground/80">
+            You can always upgrade or change your account type later
+          </p>
         </div>
       </div>
     </main>
-  )
+  );
 }

@@ -122,6 +122,8 @@ export default function LandingPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-primary/10 rounded-2xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Scissors className="h-8 w-8 text-primary" />
@@ -136,6 +138,8 @@ export default function LandingPage() {
             </Card>
 
             <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-chart-1/5 to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-1/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-1/20 transition-colors">
                   <Palette className="h-8 w-8 text-chart-1" />
@@ -150,6 +154,8 @@ export default function LandingPage() {
             </Card>
 
             <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-3/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-3/20 transition-colors">
                   <Briefcase className="h-8 w-8 text-chart-3" />
@@ -164,6 +170,8 @@ export default function LandingPage() {
             </Card>
 
             <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-chart-1/5 to-chart-3/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
               <CardContent className="pt-8 pb-6 text-center space-y-4">
                 <div className="w-16 h-16 mx-auto bg-chart-5/10 rounded-2xl flex items-center justify-center group-hover:bg-chart-5/20 transition-colors">
                   <Dumbbell className="h-8 w-8 text-chart-5" />
@@ -293,6 +301,8 @@ export default function LandingPage() {
                 key={index}
                 className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
                 <CardContent className="pt-8 pb-6 space-y-4">
                   <feature.icon
                     className={`h-12 w-12 text-${feature.color} mx-auto`}
