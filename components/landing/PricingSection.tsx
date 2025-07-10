@@ -43,8 +43,8 @@ export function PricingSection() {
                   {/* Plan Header */}
                   <div className="text-center space-y-4">
                     <div className={`w-16 h-16 mx-auto ${plan.bgColor} rounded-2xl flex items-center justify-center group-hover:${plan.hoverBgColor} transition-colors`}>
-                      {plan.name === "Free" && <IconComponent className="h-8 w-8 text-chart-4" />}
-                      {plan.name === "Pro" && <IconComponent className="h-8 w-8 text-primary" />}
+                      {plan.name === "Individual Free" && <IconComponent className="h-8 w-8 text-chart-4" />}
+                      {plan.name === "Individual Pro" && <IconComponent className="h-8 w-8 text-primary" />}
                       {plan.name === "Business" && <IconComponent className="h-8 w-8 text-chart-3" />}
                     </div>
                     

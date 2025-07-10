@@ -25,7 +25,7 @@ export const businessCategories = [
 
 export const pricingPlans = [
   {
-    name: "Free",
+    name: "Individual Free",
     price: "0€",
     description: "Perfect for getting started as an individual or small business.",
     features: [
@@ -42,7 +42,7 @@ export const pricingPlans = [
     gradientColor: "from-chart-4/5 to-chart-5/5",
   },
   {
-    name: "Pro",
+    name: "Individual Pro",
     price: "9€/mo",
     description: "For solo professionals who want more control and features.",
     features: [
