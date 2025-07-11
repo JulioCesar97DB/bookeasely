@@ -5,10 +5,12 @@ import IndividualFreeAccountCard from "@/components/auth/IndividualFreeAccountCa
 import IndividualProAccountCard from "@/components/auth/IndividualAccountCard";
 import BusinessAccountCard from "@/components/auth/BusinessAccountCard";
 import ClientAccountCard from "@/components/auth/ClientAccountCard";
+import ClientSelectionCard from "@/components/auth/ClientSelectionCard";
+import ProviderSelectionCard from "@/components/auth/ProviderSelectionCard";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Users, UserCheck, Search, Calendar, Star, Settings, TrendingUp } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -17,8 +19,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
-import { useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 type UserType = 'client' | 'provider' | null;
 
@@ -64,105 +64,8 @@ export default function RegisterPage() {
                 />
 
                 <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                  {/* Client Card */}
-                  <Card 
-                    className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-blue-500/30 cursor-pointer"
-                    onClick={() => setUserType('client')}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <CardHeader className="relative space-y-4 pb-6 text-center">
-                      <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
-                        <UserCheck className="h-10 w-10 text-white" />
-                      </div>
-
-                      <div className="space-y-2">
-                        <CardTitle className="text-2xl font-bold text-foreground">
-                          I&apos;m a Client
-                        </CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                          I want to book appointments and discover services
-                        </CardDescription>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="relative space-y-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                            <Search className="h-4 w-4 text-blue-600" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Find and book services</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                            <Calendar className="h-4 w-4 text-purple-600" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Manage your appointments</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                            <Star className="h-4 w-4 text-blue-700" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Rate and review services</span>
-                        </div>
-                      </div>
-
-                      <Button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105">
-                        Continue as Client
-                      </Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* Service Provider Card */}
-                  <Card 
-                    className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-2 hover:border-primary/30 cursor-pointer"
-                    onClick={() => setUserType('provider')}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-chart-2/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <CardHeader className="relative space-y-4 pb-6 text-center">
-                      <div className="w-20 h-20 bg-gradient-to-br from-primary to-chart-2 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 mx-auto">
-                        <Users className="h-10 w-10 text-white" />
-                      </div>
-
-                      <div className="space-y-2">
-                        <CardTitle className="text-2xl font-bold text-foreground">
-                          I&apos;m a Service Provider
-                        </CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                          I want to offer services and manage my business
-                        </CardDescription>
-                      </div>
-                    </CardHeader>
-
-                    <CardContent className="relative space-y-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center">
-                            <Settings className="h-4 w-4 text-primary" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Manage your schedule</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-chart-2/20 rounded-lg flex items-center justify-center">
-                            <Calendar className="h-4 w-4 text-chart-2" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Accept online bookings</span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-primary/30 rounded-lg flex items-center justify-center">
-                            <TrendingUp className="h-4 w-4 text-primary" />
-                          </div>
-                          <span className="text-sm text-muted-foreground">Grow your business</span>
-                        </div>
-                      </div>
-
-                      <Button className="w-full bg-gradient-to-r from-primary to-chart-2 hover:from-primary/90 hover:to-chart-2/90 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105">
-                        Continue as Provider
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  <ClientSelectionCard onClick={() => setUserType('client')} />
+                  <ProviderSelectionCard onClick={() => setUserType('provider')} />
                 </div>
               </>
             ) : userType === 'client' ? (
