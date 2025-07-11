@@ -4,7 +4,7 @@ import { Scissors, Palette, Briefcase, Dumbbell } from "lucide-react";
 
 export function WhoIsForSection() {
   return (
-    <section id="who-is-for" className="py-24 bg-gradient-to-br from-muted/20 to-chart-4/5">
+    <section id="who-is-for" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4 text-center space-y-16">
         <SectionHeader
           title="Perfect for professionals like you"

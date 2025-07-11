@@ -2,6 +2,7 @@
 export { Header } from "./Header";
 export { HeroSection } from "./HeroSection";
 export { WhoIsForSection } from "./WhoIsForSection";
+export { UserTypesSection } from "./UserTypesSection";
 export { HowItWorksSection } from "./HowItWorksSection";
 export { FeaturesSection } from "./FeaturesSection";
 export { PricingSection } from "./PricingSection";

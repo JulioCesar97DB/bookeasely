@@ -12,16 +12,16 @@ export function HeroSection() {
     <section id="home" className="min-h-screen flex items-center pt-16">
       <div className="container mx-auto px-8 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-8 text-center lg:text-left">
-          <h1 className="text-5xl lg:text-7xl font-bold text-foreground leading-tight">
-            Booking made easy for{" "}
-            <span className="text-primary">solo pros</span> and{" "}
-            <span className="text-chart-2">small teams</span>
+          <h1 className="text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+            Find and book <span className="text-primary">services</span> or
+            manage your <span className="text-primary">business</span>.
+            Everything you need,{" "}
+            <span className="text-primary">all in one place</span>.
           </h1>
 
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            The modern booking platform designed for freelancers, barbers,
-            tattoo artists, and small businesses. Manage your services,
-            schedule, and team all in one place.
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            The complete platform for clients and professionals. Book
+            appointments, manage schedules, and grow your business.
           </p>
 
           <div className="space-y-4">

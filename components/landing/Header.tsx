@@ -13,7 +13,9 @@ export function Header() {
       <nav className="container mx-auto px-4 flex justify-between items-center h-16">
         <div className="flex items-center space-x-2">
           <Calendar1 />
-          <h1 className="text-2xl font-bold text-foreground">BookEasely</h1>
+          <h1 className="hidden sm:flex text-2xl font-bold text-foreground">
+            BookEasely
+          </h1>
         </div>
 
         <div className="hidden md:flex items-center space-x-8">
@@ -24,8 +26,8 @@ export function Header() {
             Home
           </Link>
           <Link
-            href="#who-is-for"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            href="#user-types"
+            className="hidden lg:flex text-muted-foreground hover:text-foreground transition-colors"
           >
             Who It&apos;s For
           </Link>
@@ -43,14 +45,14 @@ export function Header() {
           </Link>
           <Link
             href="#pricing"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="hidden lg:flex text-muted-foreground hover:text-foreground transition-colors"
           >
             Pricing
           </Link>
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hidden sm:flex" onClick={() => router.push("/auth/login")}>
+          <Button variant="ghost" onClick={() => router.push("/auth/login")}>
             Sign In
           </Button>
           <Button onClick={() => router.push("/auth/register")}>

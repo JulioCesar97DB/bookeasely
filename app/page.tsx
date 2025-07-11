@@ -1,6 +1,7 @@
 import {
   Header,
   HeroSection,
+  UserTypesSection,
   WhoIsForSection,
   HowItWorksSection,
   FeaturesSection,
@@ -14,9 +15,10 @@ export default function LandingPage() {
     <main className="bg-background">
       <Header />
       <HeroSection />
+      <UserTypesSection />
       <WhoIsForSection />
       <HowItWorksSection />
-      <FeaturesSection />
+      <FeaturesSection />F
       <PricingSection />
       <CTASection />
       <Footer />
