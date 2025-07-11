@@ -50,7 +50,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hidden sm:flex">
+          <Button variant="ghost" className="hidden sm:flex" onClick={() => router.push("/auth/login")}>
             Sign In
           </Button>
           <Button onClick={() => router.push("/auth/register")}>
