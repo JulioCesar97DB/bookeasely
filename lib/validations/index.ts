@@ -9,3 +9,9 @@ export {
   businessRegistrationSchema, 
   type BusinessRegistrationData 
 } from './business'
+
+// Export login validation schemas
+export { 
+  loginSchema, 
+  type LoginData 
+} from './login'
