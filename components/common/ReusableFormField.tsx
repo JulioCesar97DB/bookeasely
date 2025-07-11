@@ -6,10 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, Phone, User } from "lucide-react"
 import { ReactNode, useState } from "react"
 
-type FieldType = "input" | "email" | "password" | "number" | "select" | "checkbox"
+type FieldType = "input" | "email" | "password" | "phone" | "number" | "select" | "checkbox"
 
 interface BaseFormFieldProps<TFieldValues extends FieldValues = FieldValues> {
   control: Control<TFieldValues>
@@ -23,7 +23,7 @@ interface BaseFormFieldProps<TFieldValues extends FieldValues = FieldValues> {
 
 interface InputFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
   extends BaseFormFieldProps<TFieldValues> {
-  type: "input" | "email"
+  type: "input" | "email" | "phone"
 }
 
 interface PasswordFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
@@ -49,7 +49,6 @@ interface CheckboxFormFieldProps<TFieldValues extends FieldValues = FieldValues>
   type: "checkbox"
   children?: ReactNode
 }
-
 type ReusableFormFieldProps<TFieldValues extends FieldValues = FieldValues> = 
   | InputFormFieldProps<TFieldValues>
   | PasswordFormFieldProps<TFieldValues> 
@@ -63,42 +62,97 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
   const [showPassword, setShowPassword] = useState(false)
   const { control, name, label, placeholder, type, className = "", required = false } = props
 
+  const getIcon = () => {
+    switch (type) {
+      case "email":
+        return <Mail className="h-4 w-4 text-muted-foreground" />
+      case "password":
+        return <Lock className="h-4 w-4 text-muted-foreground" />
+      case "phone":
+        return <Phone className="h-4 w-4 text-muted-foreground" />
+      case "input":
+        return <User className="h-4 w-4 text-muted-foreground" />
+      default:
+        return null
+    }
+  }
+
   const renderField = (field: FieldValues): ReactNode => {
+    const hasIcon = ["input", "email", "password", "phone"].includes(type)
+    const iconClasses = hasIcon ? "pl-10" : ""
+    
     switch (type) {
       case "input":
         return (
-          <Input 
-            placeholder={placeholder}
-            className={`h-12 ${className}`}
-            {...field}
-          />
+          <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
+            <Input 
+              placeholder={placeholder}
+              className={`h-10 ${iconClasses} ${className}`}
+              {...field}
+            />
+          </div>
         )
 
       case "email":
         return (
-          <Input 
-            type="email"
-            placeholder={placeholder}
-            className={`h-12 ${className}`}
-            {...field}
-          />
+          <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
+            <Input 
+              type="email"
+              placeholder={placeholder}
+              className={`h-10 ${iconClasses} ${className}`}
+              {...field}
+            />
+          </div>
+        )
+
+      case "phone":
+        return (
+          <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
+            <Input 
+              type="tel"
+              placeholder={placeholder}
+              className={`h-10 ${iconClasses} ${className}`}
+              {...field}
+            />
+          </div>
         )
 
       case "password":
         return (
           <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
             <Input
               type={showPassword ? "text" : "password"}
               placeholder={placeholder}
-              className={`h-12 pr-12 ${className}`}
+              className={`h-10 ${iconClasses} pr-12 ${className}`}
               {...field}
             />
             <Button
               type="button"
               variant="ghost"
               size="sm"
-              className="absolute right-0 top-0 h-12 px-3 hover:bg-transparent"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 h-full px-3 py-2 hover:bg-transparent"
               onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -117,7 +171,7 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
             placeholder={placeholder}
             min={numberProps.min}
             max={numberProps.max}
-            className={`h-12 ${className}`}
+            className={`h-10 ${className}`}
             {...field}
           />
         )
@@ -127,7 +181,7 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
         return (
           <Select onValueChange={field.onChange} defaultValue={field.value}>
             <FormControl>
-              <SelectTrigger className={`h-12 ${className}`}>
+              <SelectTrigger className={`h-10 ${className}`}>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
@@ -145,7 +199,7 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
         return (
           <Input 
             placeholder={placeholder}
-            className={`h-12 ${className}`}
+            className={`h-10 ${className}`}
             {...field}
           />
         )

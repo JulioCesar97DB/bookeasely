@@ -1,3 +1,9 @@
+// Export client validation schemas
+export { 
+  clientRegistrationSchema, 
+  type ClientRegistrationFormData 
+} from './client'
+
 // Export individual validation schemas
 export { 
   individualRegistrationSchema, 
