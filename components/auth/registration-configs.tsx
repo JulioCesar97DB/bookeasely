@@ -73,6 +73,20 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     linkColor: "text-chart-1",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-chart-1/5",
   },
+  login: {
+    title: "Welcome back",
+    description: "Sign in to your BookEasely account and continue managing your bookings",
+    cardTitle: "Sign In to Your Account",
+    cardDescription: "Continue managing your appointments and growing your business",
+    iconName: "userCheck",
+    gradientFrom: "bg-gradient-to-br from-primary",
+    gradientTo: "to-chart-2",
+    borderColor: "border-primary/30",
+    buttonGradient: "bg-gradient-to-r from-primary to-chart-2",
+    buttonHoverGradient: "hover:from-primary/90 hover:to-chart-2/90",
+    linkColor: "text-primary",
+    backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-primary/5",
+  },
 };
 
 export const getIcon = (iconName: string): ReactNode => {
