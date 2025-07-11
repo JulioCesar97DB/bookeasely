@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { loginSchema, type LoginData } from "@/lib/validations";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 
 interface LoginFormProps {
   buttonGradient: string;
@@ -183,17 +182,7 @@ export default function LoginForm({ buttonGradient, buttonHoverGradient, linkCol
           </Button>
         </div>
 
-        <div className="text-center space-y-2 pt-4 border-t border-border">
-          <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/auth/register"
-              className="font-medium hover:underline"
-              style={{ color: linkColor }}
-            >
-              Create account
-            </Link>
-          </p>
+        <div className="text-center pt-4 border-t border-border">
           <p className="text-xs text-muted-foreground/80">
             By signing in, you agree to our{" "}
             <Button

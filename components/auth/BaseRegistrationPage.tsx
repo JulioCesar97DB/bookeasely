@@ -21,11 +21,11 @@ export default function BaseRegistrationPage({ config, children }: BaseRegistrat
       <div className="container mx-auto px-4 py-8 max-w-2xl">
         <Button
           variant="ghost"
-          onClick={() => router.push("/auth/register")}
+          onClick={() => router.push(config.accountLinkType === 'dontHaveAccount' ? "/" : "/auth/register")}
           className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to account selection
+          {config.accountLinkType === 'dontHaveAccount' ? "Back to start" : "Back to account selection"}
         </Button>
 
         <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
@@ -49,26 +49,38 @@ export default function BaseRegistrationPage({ config, children }: BaseRegistrat
               <CardContent className="space-y-6">
                 {children}
 
-                <div className="text-center space-y-4">
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <span className="w-full border-t" />
+                {config.accountLinkType !== 'none' && (
+                  <div className="text-center space-y-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-card px-2 text-muted-foreground">
+                          {config.accountLinkType === 'alreadyHaveAccount' 
+                            ? "Already have an account?"
+                            : "Don't have an account?"
+                          }
+                        </span>
+                      </div>
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                      <span className="bg-card px-2 text-muted-foreground">
-                        Already have an account?
-                      </span>
-                    </div>
+                    
+                    <Button
+                      variant="outline"
+                      onClick={() => router.push(
+                        config.accountLinkType === 'alreadyHaveAccount' 
+                          ? "/auth/login" 
+                          : "/auth/register"
+                      )}
+                      className="w-full"
+                    >
+                      {config.accountLinkType === 'alreadyHaveAccount' 
+                        ? "Sign In Instead"
+                        : "Create Account"
+                      }
+                    </Button>
                   </div>
-                  
-                  <Button
-                    variant="outline"
-                    onClick={() => router.push("/auth/login")}
-                    className="w-full"
-                  >
-                    Sign In Instead
-                  </Button>
-                </div>
+                )}
               </CardContent>
             </Card>
 

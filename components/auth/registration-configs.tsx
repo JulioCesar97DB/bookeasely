@@ -14,6 +14,7 @@ export interface RegistrationConfig {
   buttonHoverGradient: string;
   linkColor: string;
   backgroundGradient: string;
+  accountLinkType: 'alreadyHaveAccount' | 'dontHaveAccount' | 'none';
 }
 
 export const accountConfigs: Record<string, RegistrationConfig> = {
@@ -30,6 +31,7 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     buttonHoverGradient: "hover:from-blue-500/90 hover:to-purple-500/90",
     linkColor: "text-blue-500",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-blue-500/5",
+    accountLinkType: "alreadyHaveAccount",
   },
   individualFree: {
     title: "Create your individual free account",
@@ -44,6 +46,7 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     buttonHoverGradient: "hover:from-chart-4/90 hover:to-chart-5/90",
     linkColor: "text-chart-4",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-chart-4/5",
+    accountLinkType: "alreadyHaveAccount",
   },
   individual: {
     title: "Create your individual pro account",
@@ -58,6 +61,7 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     buttonHoverGradient: "hover:from-primary/90 hover:to-chart-2/90",
     linkColor: "text-primary",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-primary/5",
+    accountLinkType: "alreadyHaveAccount",
   },
   business: {
     title: "Create your business account",
@@ -72,6 +76,7 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     buttonHoverGradient: "hover:from-chart-1/90 hover:to-chart-3/90",
     linkColor: "text-chart-1",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-chart-1/5",
+    accountLinkType: "alreadyHaveAccount",
   },
   login: {
     title: "Welcome back",
@@ -86,6 +91,7 @@ export const accountConfigs: Record<string, RegistrationConfig> = {
     buttonHoverGradient: "hover:from-primary/90 hover:to-chart-2/90",
     linkColor: "text-primary",
     backgroundGradient: "bg-gradient-to-br from-background via-muted/20 to-primary/5",
+    accountLinkType: "dontHaveAccount",
   },
 };
 
