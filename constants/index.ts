@@ -1,7 +1,8 @@
-import { User, Users } from "lucide-react";
-import { 
-  Search, 
-  Calendar, 
+import {
+  User,
+  Users,
+  Search,
+  Calendar,
   MapPin,
   Star,
   Clock,
@@ -10,7 +11,9 @@ import {
   BarChart3,
   Settings,
   UserCheck,
-  Building
+  Building,
+  CheckCircle,
+  ArrowRight,
 } from "lucide-react";
 
 export const businessCategories = [
@@ -34,7 +37,7 @@ export const businessCategories = [
   "Music Teacher",
   "Driving Instructor",
   "Other",
-]
+];
 
 export const pricingPlans = [
   {
@@ -95,13 +98,13 @@ export const pricingPlans = [
 ];
 
 export const accountTypes = {
-  CLIENT: 'client',
-  INDIVIDUAL_FREE: 'individual-free',
-  INDIVIDUAL_PRO: 'individual-pro',
-  BUSINESS: 'business'
+  CLIENT: "client",
+  INDIVIDUAL_FREE: "individual-free",
+  INDIVIDUAL_PRO: "individual-pro",
+  BUSINESS: "business",
 } as const;
 
-export type AccountType = typeof accountTypes[keyof typeof accountTypes];
+export type AccountType = (typeof accountTypes)[keyof typeof accountTypes];
 
 // Plan details for account types
 export const planDetails = {
@@ -111,15 +114,17 @@ export const planDetails = {
   },
   [accountTypes.INDIVIDUAL_PRO]: {
     name: "Individual Pro",
-    description: "Unlock advanced features and unlimited bookings for your solo practice",
+    description:
+      "Unlock advanced features and unlimited bookings for your solo practice",
   },
   [accountTypes.INDIVIDUAL_FREE]: {
-    name: "Individual Free", 
+    name: "Individual Free",
     description: "Start your journey as a solo professional with our free plan",
   },
   [accountTypes.BUSINESS]: {
     name: "Business",
-    description: "Perfect for teams and businesses managing multiple staff and bookings",
+    description:
+      "Perfect for teams and businesses managing multiple staff and bookings",
   },
 } as const;
 
@@ -132,23 +137,23 @@ export const userTypes = [
       {
         text: "Search local service providers",
         icon: MapPin,
-        colors: { bg: "bg-primary/10", text: "text-primary" }
+        colors: { bg: "bg-primary/10", text: "text-primary" },
       },
       {
         text: "Compare reviews and pricing",
         icon: Star,
-        colors: { bg: "bg-chart-2/10", text: "text-chart-2" }
+        colors: { bg: "bg-chart-2/10", text: "text-chart-2" },
       },
       {
         text: "Book appointments instantly",
         icon: Clock,
-        colors: { bg: "bg-chart-3/10", text: "text-chart-3" }
+        colors: { bg: "bg-chart-3/10", text: "text-chart-3" },
       },
       {
         text: "Manage your bookings online",
         icon: Monitor,
-        colors: { bg: "bg-chart-5/10", text: "text-chart-5" }
-      }
+        colors: { bg: "bg-chart-5/10", text: "text-chart-5" },
+      },
     ],
     ctaText: "Find Services",
     ctaRoute: "/search",
@@ -157,7 +162,7 @@ export const userTypes = [
     iconBg: "bg-primary/10",
     hoverIconBg: "group-hover:bg-primary/20",
     borderColor: "border-primary/20",
-    popular: false
+    popular: false,
   },
   {
     icon: Calendar,
@@ -167,23 +172,23 @@ export const userTypes = [
       {
         text: "Create your professional profile",
         icon: User,
-        colors: { bg: "bg-chart-1/10", text: "text-chart-1" }
+        colors: { bg: "bg-chart-1/10", text: "text-chart-1" },
       },
       {
         text: "Manage your schedule efficiently",
         icon: Calendar,
-        colors: { bg: "bg-chart-4/10", text: "text-chart-4" }
+        colors: { bg: "bg-chart-4/10", text: "text-chart-4" },
       },
       {
         text: "Accept online bookings 24/7",
         icon: Clock,
-        colors: { bg: "bg-primary/10", text: "text-primary" }
+        colors: { bg: "bg-primary/10", text: "text-primary" },
       },
       {
         text: "Track earnings and analytics",
         icon: TrendingUp,
-        colors: { bg: "bg-chart-2/10", text: "text-chart-2" }
-      }
+        colors: { bg: "bg-chart-2/10", text: "text-chart-2" },
+      },
     ],
     ctaText: "Start Your Practice",
     ctaRoute: "/auth/register/individual",
@@ -192,7 +197,7 @@ export const userTypes = [
     iconBg: "bg-chart-1/10",
     hoverIconBg: "group-hover:bg-chart-1/20",
     borderColor: "border-chart-1/20",
-    popular: true
+    popular: true,
   },
   {
     icon: Users,
@@ -202,23 +207,23 @@ export const userTypes = [
       {
         text: "Multi-staff scheduling",
         icon: UserCheck,
-        colors: { bg: "bg-chart-3/10", text: "text-chart-3" }
+        colors: { bg: "bg-chart-3/10", text: "text-chart-3" },
       },
       {
         text: "Team performance analytics",
         icon: BarChart3,
-        colors: { bg: "bg-chart-5/10", text: "text-chart-5" }
+        colors: { bg: "bg-chart-5/10", text: "text-chart-5" },
       },
       {
         text: "Client management system",
         icon: Settings,
-        colors: { bg: "bg-primary/10", text: "text-primary" }
+        colors: { bg: "bg-primary/10", text: "text-primary" },
       },
       {
         text: "Advanced reporting tools",
         icon: Building,
-        colors: { bg: "bg-chart-1/10", text: "text-chart-1" }
-      }
+        colors: { bg: "bg-chart-1/10", text: "text-chart-1" },
+      },
     ],
     ctaText: "Grow Your Business",
     ctaRoute: "/auth/register/business",
@@ -227,6 +232,45 @@ export const userTypes = [
     iconBg: "bg-chart-3/10",
     hoverIconBg: "group-hover:bg-chart-3/20",
     borderColor: "border-chart-3/20",
-    popular: false
-  }
+    popular: false,
+  },
 ];
+
+export const features = [
+    {
+      icon: Calendar,
+      title: "Smart Calendar",
+      desc: "Sync with Google Calendar, set buffer times, and avoid double bookings automatically.",
+      color: "primary",
+    },
+    {
+      icon: Users,
+      title: "Team Management",
+      desc: "Add team members, set individual schedules, and let clients choose their preferred staff.",
+      color: "chart-1",
+    },
+    {
+      icon: Clock,
+      title: "Custom Services",
+      desc: "Set different durations, prices, and descriptions for each service you offer.",
+      color: "chart-2",
+    },
+    {
+      icon: CheckCircle,
+      title: "Automated Reminders",
+      desc: "Reduce no-shows with automatic email and SMS reminders sent to your clients.",
+      color: "chart-3",
+    },
+    {
+      icon: Star,
+      title: "Client Reviews",
+      desc: "Collect feedback and build your reputation with integrated review system.",
+      color: "chart-4",
+    },
+    {
+      icon: ArrowRight,
+      title: "Easy Integration",
+      desc: "Embed on your website or share your custom booking link anywhere.",
+      color: "chart-5",
+    },
+  ];
