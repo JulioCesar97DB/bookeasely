@@ -10,7 +10,7 @@ import { RegistrationConfig, getIcon } from "./registration-configs";
 
 interface BaseRegistrationPageProps {
   config: RegistrationConfig;
-  children: ReactNode; // El formulario específico
+  children: ReactNode;
 }
 
 export default function BaseRegistrationPage({ config, children }: BaseRegistrationPageProps) {
