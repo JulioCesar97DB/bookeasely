@@ -17,7 +17,7 @@ interface IndividualFormProps {
   accountType?: string;
 }
 
-export default function IndividualForm({ buttonGradient, buttonHoverGradient, linkColor, accountType }: IndividualFormProps) {
+export default function IndividualForm({ buttonGradient, buttonHoverGradient, accountType }: IndividualFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +32,6 @@ export default function IndividualForm({ buttonGradient, buttonHoverGradient, li
       phoneNumber: "",
       serviceCategory: "",
       accountType: (accountType as "individual-free" | "individual-pro") || accountTypes.INDIVIDUAL_FREE,
-      agreeToTerms: false,
     },
   });
 
@@ -119,24 +118,9 @@ export default function IndividualForm({ buttonGradient, buttonHoverGradient, li
           options={businessCategories}
         />
 
-        <ReusableFormField
-          control={form.control}
-          name="agreeToTerms"
-          label="I agree to the terms and conditions"
-          type="checkbox"
-        >
-          I agree to the{" "}
-          <Button
-            variant="link"
-            className={`p-0 h-auto ${linkColor} underline`}
-          >
-            terms and conditions
-          </Button>
-        </ReusableFormField>
-
         <Button
           type="submit"
-          className={`w-full ${buttonGradient} ${buttonHoverGradient} text-white font-semibold py-3 text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl`}
+          className={`w-full ${buttonGradient} ${buttonHoverGradient} text-white mt-4 font-semibold py-3 text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl`}
           disabled={isLoading}
         >
           {isLoading ? "Creating Account..." : 

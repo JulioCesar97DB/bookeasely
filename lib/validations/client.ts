@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const clientRegistrationSchema = z.object({
+export const clientRegistrationSchema = z
+  .object({
     firstName: z.string().min(2, {
       message: "First name must be at least 2 characters.",
     }),
@@ -22,9 +23,6 @@ export const clientRegistrationSchema = z.object({
       message: "Password must be at least 8 characters.",
     }),
     confirmPassword: z.string(),
-    agreeToTerms: z.boolean().refine((value) => value === true, {
-      message: "You must agree to the terms and conditions.",
-    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
