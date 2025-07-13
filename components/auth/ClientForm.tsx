@@ -4,10 +4,11 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { clientRegistrationSchema, type ClientRegistrationFormData } from "@/lib/validations";
+import { signupClient } from "@/app/auth/actions";
 
 interface ClientFormProps {
   buttonGradient: string;
@@ -16,8 +17,10 @@ interface ClientFormProps {
 }
 
 export default function ClientForm({ buttonGradient, buttonHoverGradient }: ClientFormProps) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const form = useForm<ClientRegistrationFormData>({
     resolver: zodResolver(clientRegistrationSchema),
@@ -31,17 +34,39 @@ export default function ClientForm({ buttonGradient, buttonHoverGradient }: Clie
     },
   });
 
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    const messageParam = searchParams.get('message');
+    
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+    }
+    if (messageParam) {
+      setMessage(decodeURIComponent(messageParam));
+    }
+  }, [searchParams]);
+
   const onSubmit = async (data: ClientRegistrationFormData) => {
     setIsLoading(true);
+    setError(null);
+    
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Client registration data:", data);
-      // Redirect to dashboard or success page
-      router.push("/dashboard");
+      const formData = new FormData();
+      formData.append('firstName', data.firstName);
+      formData.append('lastName', data.lastName);
+      formData.append('email', data.email);
+      formData.append('phone', data.phone);
+      formData.append('password', data.password);
+      formData.append('confirmPassword', data.confirmPassword);
+      
+      await signupClient(formData);
     } catch (error) {
+      if (error && typeof error === 'object' && 'digest' in error) {
+        throw error;
+      }
+      
       console.error("Registration failed:", error);
-    } finally {
+      setError("An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };
@@ -49,6 +74,18 @@ export default function ClientForm({ buttonGradient, buttonHoverGradient }: Clie
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            {error}
+          </div>
+        )}
+        
+        {message && (
+          <div className="p-3 rounded-md bg-green-100 border border-green-200 text-green-700 text-sm">
+            {message}
+          </div>
+        )}
+
         <div className="grid grid-cols-2 gap-4">
           <ReusableFormField
             control={form.control}

@@ -4,11 +4,12 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { loginSchema, type LoginData } from "@/lib/validations";
 import { Separator } from "@/components/ui/separator";
+import { login } from "@/app/auth/actions";
 
 interface LoginFormProps {
   buttonGradient: string;
@@ -16,10 +17,17 @@ interface LoginFormProps {
   linkColor: string;
 }
 
-export default function LoginForm({ buttonGradient, buttonHoverGradient, linkColor }: LoginFormProps) {
+export default function LoginForm({
+  buttonGradient,
+  buttonHoverGradient,
+  linkColor,
+}: LoginFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const form = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
@@ -30,17 +38,36 @@ export default function LoginForm({ buttonGradient, buttonHoverGradient, linkCol
     },
   });
 
+  // Handle URL params for errors and messages
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    const messageParam = searchParams.get("message");
+
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+    }
+    if (messageParam) {
+      setMessage(decodeURIComponent(messageParam));
+    }
+  }, [searchParams]);
+
   const onSubmit = async (data: LoginData) => {
     setIsLoading(true);
+    setError(null);
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Login data:", data);
-      // Redirect to dashboard
-      router.push("/dashboard");
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+
+      await login(formData);
     } catch (error) {
+      if (error && typeof error === "object" && "digest" in error) {
+        throw error;
+      }
+
       console.error("Login failed:", error);
-    } finally {
+      setError("An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };
@@ -48,7 +75,6 @@ export default function LoginForm({ buttonGradient, buttonHoverGradient, linkCol
   const handleSocialLogin = async (provider: "google" | "apple") => {
     setSocialLoading(provider);
     try {
-      // Simulate social login
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log(`${provider} login`);
       router.push("/dashboard");
@@ -62,6 +88,18 @@ export default function LoginForm({ buttonGradient, buttonHoverGradient, linkCol
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            {error}
+          </div>
+        )}
+
+        {message && (
+          <div className="p-3 rounded-md bg-green-100 border border-green-200 text-green-700 text-sm">
+            {message}
+          </div>
+        )}
+
         <ReusableFormField
           control={form.control}
           name="email"
