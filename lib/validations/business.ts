@@ -18,6 +18,11 @@ export const businessRegistrationSchema = z
     phoneNumber: z.string().min(10, "Please enter a valid phone number"),
     businessCategory: z.string().optional(),
     teamMembers: z.string().optional(),
+    // Address fields - only country is required
+    country: z.string().min(1, "Country is required"),
+    stateProvince: z.string().optional(),
+    address: z.string().optional(),
+    postalCode: z.string().optional(),
     accountType: z.literal(accountTypes.BUSINESS),
   })
   .refine((data) => data.password === data.confirmPassword, {

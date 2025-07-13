@@ -4,11 +4,11 @@ import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { businessRegistrationSchema, type BusinessRegistrationData } from "@/lib/validations";
-import { businessCategories, accountTypes } from "@/constants";
+import { businessCategories, accountTypes, countries, getStatesProvinces } from "@/constants";
 
 interface BusinessFormProps {
   buttonGradient: string;
@@ -19,6 +19,7 @@ interface BusinessFormProps {
 export default function BusinessForm({ buttonGradient, buttonHoverGradient }: BusinessFormProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   const form = useForm<BusinessRegistrationData>({
     resolver: zodResolver(businessRegistrationSchema),
@@ -32,9 +33,22 @@ export default function BusinessForm({ buttonGradient, buttonHoverGradient }: Bu
       phoneNumber: "",
       businessCategory: "",
       teamMembers: "",
+      country: "",
+      stateProvince: "",
+      address: "",
+      postalCode: "",
       accountType: accountTypes.BUSINESS,
     },
   });
+
+  // Watch for country changes to update state/province options
+  const watchedCountry = form.watch("country");
+  useEffect(() => {
+    setSelectedCountry(watchedCountry);
+    if (watchedCountry) {
+      form.setValue("stateProvince", ""); // Reset state/province when country changes
+    }
+  }, [watchedCountry, form]);
 
   const onSubmit = async (data: BusinessRegistrationData) => {
     setIsLoading(true);
@@ -137,6 +151,47 @@ export default function BusinessForm({ buttonGradient, buttonHoverGradient }: Bu
           min="1"
           max="100"
         />
+
+        <div className="space-y-4 border-t pt-4">
+          <h3 className="text-lg font-semibold">Business Address Information</h3>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <ReusableFormField
+              control={form.control}
+              name="country"
+              label="Country"
+              placeholder="Select business country"
+              type="country"
+              options={countries}
+              required
+            />
+
+            <ReusableFormField
+              control={form.control}
+              name="stateProvince"
+              label="State/Province"
+              placeholder="Select state/province"
+              type="state-province"
+              options={selectedCountry ? getStatesProvinces(selectedCountry) : []}
+            />
+          </div>
+
+          <ReusableFormField
+            control={form.control}
+            name="address"
+            label="Business Address"
+            placeholder="Enter business street address"
+            type="address"
+          />
+
+          <ReusableFormField
+            control={form.control}
+            name="postalCode"
+            label="Postal Code"
+            placeholder="Enter postal code"
+            type="postal-code"
+          />
+        </div>
 
         <Button
           type="submit"

@@ -6,10 +6,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import { Eye, EyeOff, Mail, Lock, Phone, User } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock, Phone, User, MapPin, Globe, Hash } from "lucide-react"
 import { ReactNode, useState } from "react"
 
-type FieldType = "input" | "email" | "password" | "phone" | "number" | "select" | "checkbox"
+type FieldType = "input" | "email" | "password" | "phone" | "number" | "select" | "checkbox" | "address" | "country" | "state-province" | "postal-code"
 
 interface BaseFormFieldProps<TFieldValues extends FieldValues = FieldValues> {
   control: Control<TFieldValues>
@@ -23,7 +23,7 @@ interface BaseFormFieldProps<TFieldValues extends FieldValues = FieldValues> {
 
 interface InputFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
   extends BaseFormFieldProps<TFieldValues> {
-  type: "input" | "email" | "phone"
+  type: "input" | "email" | "phone" | "address" | "postal-code"
 }
 
 interface PasswordFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
@@ -44,6 +44,18 @@ interface SelectFormFieldProps<TFieldValues extends FieldValues = FieldValues>
   options: string[]
 }
 
+interface CountryFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
+  extends BaseFormFieldProps<TFieldValues> {
+  type: "country"
+  options: string[]
+}
+
+interface StateProvinceFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
+  extends BaseFormFieldProps<TFieldValues> {
+  type: "state-province"
+  options: string[]
+}
+
 interface CheckboxFormFieldProps<TFieldValues extends FieldValues = FieldValues> 
   extends BaseFormFieldProps<TFieldValues> {
   type: "checkbox"
@@ -54,6 +66,8 @@ type ReusableFormFieldProps<TFieldValues extends FieldValues = FieldValues> =
   | PasswordFormFieldProps<TFieldValues> 
   | NumberFormFieldProps<TFieldValues>
   | SelectFormFieldProps<TFieldValues>
+  | CountryFormFieldProps<TFieldValues>
+  | StateProvinceFormFieldProps<TFieldValues>
   | CheckboxFormFieldProps<TFieldValues>
 
 export function ReusableFormField<TFieldValues extends FieldValues = FieldValues>(
@@ -72,13 +86,21 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
         return <Phone className="h-4 w-4 text-muted-foreground" />
       case "input":
         return <User className="h-4 w-4 text-muted-foreground" />
+      case "address":
+        return <MapPin className="h-4 w-4 text-muted-foreground" />
+      case "country":
+        return <Globe className="h-4 w-4 text-muted-foreground" />
+      case "state-province":
+        return <MapPin className="h-4 w-4 text-muted-foreground" />
+      case "postal-code":
+        return <Hash className="h-4 w-4 text-muted-foreground" />
       default:
         return null
     }
   }
 
   const renderField = (field: FieldValues): ReactNode => {
-    const hasIcon = ["input", "email", "password", "phone"].includes(type)
+    const hasIcon = ["input", "email", "password", "phone", "address", "postal-code"].includes(type)
     const iconClasses = hasIcon ? "pl-10" : ""
     
     switch (type) {
@@ -130,6 +152,58 @@ export function ReusableFormField<TFieldValues extends FieldValues = FieldValues
               {...field}
             />
           </div>
+        )
+
+      case "address":
+        return (
+          <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
+            <Input 
+              placeholder={placeholder}
+              className={`h-10 ${iconClasses} ${className}`}
+              {...field}
+            />
+          </div>
+        )
+
+      case "postal-code":
+        return (
+          <div className="relative">
+            {getIcon() && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 flex items-center justify-center">
+                {getIcon()}
+              </div>
+            )}
+            <Input 
+              placeholder={placeholder}
+              className={`h-10 ${iconClasses} ${className}`}
+              {...field}
+            />
+          </div>
+        )
+
+      case "country":
+      case "state-province":
+        const addressSelectProps = props as CountryFormFieldProps<TFieldValues> | StateProvinceFormFieldProps<TFieldValues>
+        return (
+          <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <FormControl>
+              <SelectTrigger className={`h-10 ${className}`}>
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {addressSelectProps.options.map((option) => (
+                <SelectItem key={option} value={option}>
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )
 
       case "password":

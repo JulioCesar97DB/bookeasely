@@ -14,6 +14,11 @@ export const individualRegistrationSchema = z
     confirmPassword: z.string(),
     phoneNumber: z.string().min(10, "Please enter a valid phone number"),
     serviceCategory: z.string().optional(),
+    // Address fields - only country is required
+    country: z.string().min(1, "Country is required"),
+    stateProvince: z.string().optional(),
+    address: z.string().optional(),
+    postalCode: z.string().optional(),
     accountType: z.enum([
       accountTypes.INDIVIDUAL_FREE,
       accountTypes.INDIVIDUAL_PRO,
