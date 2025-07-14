@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { isValidPhone } from "@/lib/utils/phoneValidator";
 
 export const clientRegistrationSchema = z
   .object({
@@ -14,10 +13,10 @@ export const clientRegistrationSchema = z
     }),
     phone: z
       .string()
-      .min(1, {
-        message: "Phone number is required.",
+      .min(7, {
+        message: "Phone number must be at least 7 digits.",
       })
-      .refine((phone) => isValidPhone(phone, "ES"), {
+      .regex(/^[\d\s\-\+\(\)]+$/, {
         message: "Please enter a valid phone number.",
       }),
     password: z.string().min(8, {

@@ -12,9 +12,11 @@ export const individualRegistrationSchema = z
       .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
       .regex(/\d/, "Password must contain at least one number"),
     confirmPassword: z.string(),
-    phoneNumber: z.string().min(10, "Please enter a valid phone number"),
+    phoneNumber: z
+      .string()
+      .min(7, "Phone number must be at least 7 digits")
+      .regex(/^[\d\s\-\+\(\)]+$/, "Please enter a valid phone number"),
     serviceCategory: z.string().optional(),
-    // Address fields - only country is required
     country: z.string().min(1, "Country is required"),
     stateProvince: z.string().optional(),
     address: z.string().optional(),

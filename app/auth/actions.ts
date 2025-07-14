@@ -3,12 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { formatPhoneToE164 } from "@/lib/utils/phoneValidator";
 import {
   loginSchema,
   businessRegistrationSchema,
   individualRegistrationSchema,
-  clientRegistrationSchema,
 } from "@/lib/validations";
 
 export async function login(formData: FormData) {
@@ -294,35 +292,27 @@ export async function signupIndividual(formData: FormData) {
 export async function signupClient(formData: FormData) {
   const supabase = await createClient();
 
-  const rawData = {
-    firstName: formData.get("firstName") as string,
-    lastName: formData.get("lastName") as string,
-    email: formData.get("email") as string,
-    phone: formData.get("phone") as string,
-    password: formData.get("password") as string,
-    confirmPassword: formData.get("confirmPassword") as string,
-  };
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const email = formData.get("email") as string;
+  const phone = formData.get("phone") as string;
+  const password = formData.get("password") as string;
 
-  const validatedData = clientRegistrationSchema.safeParse(rawData);
-
-  if (!validatedData.success) {
-    redirect("/auth/register/client?error=Invalid input data");
+  // Basic server-side validation for security
+  if (!email || !password || !firstName || !lastName || !phone) {
+    redirect("/auth/register/client?error=Missing required fields");
   }
-
-  const { email, password, firstName, lastName, phone } = validatedData.data;
-
-  const formattedPhone = formatPhoneToE164(phone, "ES");
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
-    phone: formattedPhone,
+    phone: phone,
     options: {
       data: {
         first_name: firstName,
         last_name: lastName,
         full_name: `${firstName} ${lastName}`,
-        phone: formattedPhone, 
+        phone: phone,
       },
     },
   });

@@ -1,12 +1,9 @@
 "use client";
 
-import React, { forwardRef, useState, useEffect } from "react";
+import React, { forwardRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  parsePhoneNumber, 
-  isValidPhoneNumber, 
-  formatIncompletePhoneNumber, 
   CountryCode, 
   getCountryCallingCode,
   getCountries
@@ -92,88 +89,17 @@ export interface PhoneInputWithCountryProps
 const PhoneInputWithCountry = forwardRef<HTMLInputElement, PhoneInputWithCountryProps>(
   ({ className, value = "", onChange, defaultCountry = "ES", ...props }, ref) => {
     const [selectedCountry, setSelectedCountry] = useState<CountryCode>(defaultCountry);
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [displayValue, setDisplayValue] = useState("");
-    const [isValid, setIsValid] = useState(true);
     
-    // Obtener todos los países una vez
     const allCountries = getAllCountries();
-
-    // Inicializar valores
-    useEffect(() => {
-      if (value) {
-        try {
-          // Si el valor tiene código de país, extraerlo
-          if (value.startsWith('+')) {
-            const parsed = parsePhoneNumber(value);
-            if (parsed) {
-              setSelectedCountry(parsed.country as CountryCode);
-              setPhoneNumber(parsed.nationalNumber);
-              setDisplayValue(parsed.formatNational().replace(/^\+\d+\s?/, ''));
-              setIsValid(true);
-              return;
-            }
-          }
-          
-          // Si no tiene código de país, usar el país por defecto
-          const formatted = formatIncompletePhoneNumber(value, selectedCountry);
-          setDisplayValue(formatted);
-          setPhoneNumber(value);
-          setIsValid(isValidPhoneNumber(value, selectedCountry));
-        } catch {
-          setDisplayValue(value);
-          setPhoneNumber(value);
-          setIsValid(false);
-        }
-      }
-    }, [value, selectedCountry]);
 
     const handleCountryChange = (countryCode: CountryCode) => {
       setSelectedCountry(countryCode);
-      
-      // Revalidar el número con el nuevo país
-      if (phoneNumber) {
-        try {
-          const valid = isValidPhoneNumber(phoneNumber, countryCode);
-          setIsValid(valid);
-          
-          if (valid) {
-            const phoneNumberObj = parsePhoneNumber(phoneNumber, countryCode);
-            const formattedPhone = phoneNumberObj?.format("E.164") || phoneNumber;
-            onChange?.(formattedPhone);
-          }
-        } catch {
-          setIsValid(false);
-        }
-      }
     };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
-      setPhoneNumber(inputValue);
-      
-      try {
-        // Formatear mientras escribe
-        const formatted = formatIncompletePhoneNumber(inputValue, selectedCountry);
-        setDisplayValue(formatted);
-        
-        // Validar el número
-        const valid = isValidPhoneNumber(inputValue, selectedCountry);
-        setIsValid(valid);
-        
-        // Si es válido, enviar en formato internacional
-        if (valid) {
-          const phoneNumberObj = parsePhoneNumber(inputValue, selectedCountry);
-          onChange?.(phoneNumberObj?.format("E.164") || inputValue);
-        } else {
-          onChange?.(inputValue);
-        }
-      } catch {
-        // Si hay error en el formateo, usar el valor tal como está
-        setDisplayValue(inputValue);
-        setIsValid(false);
-        onChange?.(inputValue);
-      }
+      const cleanedValue = inputValue.replace(/[^\d\s\-\+\(\)]/g, '');
+      onChange?.(cleanedValue);
     };
 
     const getCallingCode = (countryCode: CountryCode) => {
@@ -215,13 +141,9 @@ const PhoneInputWithCountry = forwardRef<HTMLInputElement, PhoneInputWithCountry
         <Input
           ref={ref}
           type="tel"
-          value={displayValue}
+          value={value}
           onChange={handlePhoneChange}
-          className={cn(
-            "rounded-l-none flex-1 h-10",
-            className,
-            !isValid && displayValue.length > 0 && "border-red-500 focus:border-red-500"
-          )}
+          className={cn("rounded-l-none flex-1 h-10", className)}
           {...props}
         />
       </div>
