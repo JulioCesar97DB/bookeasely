@@ -14,6 +14,8 @@ export default async function DashboardPage() {
     redirect("/auth/login");
   }
 
+  console.log(user)
+
   const { data: profile } = await supabase
     .from("profiles")
     .select(
@@ -88,6 +90,14 @@ export default async function DashboardPage() {
               </label>
               <p className="mt-1 text-gray-900 dark:text-white">
                 {new Date(user.created_at).toLocaleDateString()}
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Phone
+              </label>
+              <p className="mt-1 text-gray-900 dark:text-white">
+                {user.user_metadata?.phone || user.phone || "Not provided"}
               </p>
             </div>
             <div>

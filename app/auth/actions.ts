@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { formatPhoneToE164 } from "@/lib/utils/phoneValidator";
 import {
   loginSchema,
   businessRegistrationSchema,
@@ -308,17 +309,20 @@ export async function signupClient(formData: FormData) {
     redirect("/auth/register/client?error=Invalid input data");
   }
 
-  const { email, password, ...clientData } = validatedData.data;
+  const { email, password, firstName, lastName, phone } = validatedData.data;
+
+  const formattedPhone = formatPhoneToE164(phone, "ES");
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
+    phone: formattedPhone,
     options: {
       data: {
-        user_type: "client",
-        first_name: clientData.firstName,
-        last_name: clientData.lastName,
-        phone: clientData.phone,
+        first_name: firstName,
+        last_name: lastName,
+        full_name: `${firstName} ${lastName}`,
+        phone: formattedPhone, 
       },
     },
   });
@@ -331,44 +335,6 @@ export async function signupClient(formData: FormData) {
 
   console.log("User created successfully:", authData.user?.id);
 
-  if (authData.user) {
-    try {
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .insert({
-          user_id: authData.user.id,
-          user_type: "client",
-          account_tier: "free",
-          first_name: clientData.firstName,
-          last_name: clientData.lastName,
-          email: email,
-          phone: clientData.phone,
-        })
-        .select()
-        .single();
-
-      if (profileError) {
-        console.error("Error creating profile:", profileError);
-      } else {
-        const { error: subscriptionError } = await supabase
-          .from("subscriptions")
-          .insert({
-            profile_id: profile.id,
-            plan_name: "Client Free",
-            plan_tier: "free",
-            status: "active",
-          });
-
-        if (subscriptionError) {
-          console.error("Error creating subscription:", subscriptionError);
-        }
-      }
-    } catch (error) {
-      console.error("Error in profile creation process:", error);
-    }
-  }
-
-  console.log("About to redirect with success message for client signup");
   revalidatePath("/", "layout");
   redirect(
     "/auth/login?message=Account created successfully. Please check your email to verify your account."
