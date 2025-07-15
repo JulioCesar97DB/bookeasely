@@ -64,7 +64,7 @@ export async function signupBusiness(formData: FormData) {
     stateProvince: formData.get("stateProvince") as string,
     address: formData.get("address") as string,
     postalCode: formData.get("postalCode") as string,
-    accountType: formData.get("accountType") as string || "business",
+    accountType: (formData.get("accountType") as string) || "business",
   };
 
   const validatedData = businessRegistrationSchema.safeParse(rawData);
@@ -78,6 +78,7 @@ export async function signupBusiness(formData: FormData) {
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
+    phone: businessData.phoneNumber,
     options: {
       data: {
         account_type: businessData.accountType,
@@ -141,6 +142,7 @@ export async function signupIndividual(formData: FormData) {
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
+    phone: individualData.phoneNumber,
     options: {
       data: {
         account_type: individualData.accountType,
@@ -178,10 +180,9 @@ export async function signupClient(formData: FormData) {
   const lastName = formData.get("lastName") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
-  const accountType = formData.get("accountType") as string || "client";
+  const accountType = (formData.get("accountType") as string) || "client";
   const password = formData.get("password") as string;
   const confirmPassword = formData.get("confirmPassword") as string;
-
 
   const validatedData = clientRegistrationSchema.safeParse({
     firstName,
