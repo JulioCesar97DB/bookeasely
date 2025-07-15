@@ -1,3 +1,4 @@
+import { accountTypes } from "@/constants";
 import { z } from "zod";
 
 export const clientRegistrationSchema = z
@@ -13,12 +14,14 @@ export const clientRegistrationSchema = z
     }),
     phone: z
       .string()
-      .min(10, {
-        message: "Phone number must be at least 10 characters.",
+      .min(7, {
+        message: "Phone number must be at least 7 digits.",
       })
-      .regex(/^[\+]?[1-9][\d]{0,15}$/, {
+      .regex(/^[\d\s\-\+\(\)]+$/, {
         message: "Please enter a valid phone number.",
       }),
+    accountType: z.literal(accountTypes.CLIENT),
+
     password: z.string().min(8, {
       message: "Password must be at least 8 characters.",
     }),

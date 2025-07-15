@@ -11,20 +11,14 @@ export function Header() {
   return (
     <header className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50">
       <nav className="container mx-auto px-4 flex justify-between items-center h-16">
-        <div className="flex items-center space-x-2">
+        <Link href="#home" className="flex items-center space-x-2 hover:text-primary hover:cursor-pointer transition-colors">
           <Calendar1 />
-          <h1 className="hidden sm:flex text-2xl font-bold text-foreground">
+          <h1 className="sm:flex text-2xl font-bold">
             BookEasely
           </h1>
-        </div>
+        </Link>
 
         <div className="hidden md:flex items-center space-x-8">
-          <Link
-            href="#home"
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Home
-          </Link>
           <Link
             href="#user-types"
             className="hidden lg:flex text-muted-foreground hover:text-foreground transition-colors"

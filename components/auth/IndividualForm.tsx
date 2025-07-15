@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { individualRegistrationSchema, type IndividualRegistrationData } from "@/lib/validations";
 import { businessCategories, accountTypes, countries, getStatesProvinces } from "@/constants";
+import { signupIndividual } from "@/app/auth/actions";
 
 interface IndividualFormProps {
   buttonGradient: string;
@@ -18,9 +19,11 @@ interface IndividualFormProps {
 }
 
 export default function IndividualForm({ buttonGradient, buttonHoverGradient, accountType }: IndividualFormProps) {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   const form = useForm<IndividualRegistrationData>({
     resolver: zodResolver(individualRegistrationSchema),
@@ -40,26 +43,47 @@ export default function IndividualForm({ buttonGradient, buttonHoverGradient, ac
     },
   });
 
-  // Watch for country changes to update state/province options
   const watchedCountry = form.watch("country");
   useEffect(() => {
     setSelectedCountry(watchedCountry);
     if (watchedCountry) {
-      form.setValue("stateProvince", ""); // Reset state/province when country changes
+      form.setValue("stateProvince", ""); 
     }
   }, [watchedCountry, form]);
 
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    const messageParam = searchParams.get('message');
+    
+    if (errorParam) {
+      setError(decodeURIComponent(errorParam));
+    }
+    if (messageParam) {
+      setMessage(decodeURIComponent(messageParam));
+    }
+  }, [searchParams]);
+
   const onSubmit = async (data: IndividualRegistrationData) => {
     setIsLoading(true);
+    setError(null);
+    
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Individual registration data:", data);
-      // Redirect to dashboard or success page
-      router.push("/dashboard");
+      const formData = new FormData();
+      Object.keys(data).forEach(key => {
+        const value = data[key as keyof IndividualRegistrationData];
+        if (value !== undefined && value !== null) {
+          formData.append(key, String(value));
+        }
+      });
+      
+      await signupIndividual(formData);
     } catch (error) {
+      if (error && typeof error === 'object' && 'digest' in error) {
+        throw error;
+      }
+      
       console.error("Registration failed:", error);
-    } finally {
+      setError("An unexpected error occurred. Please try again.");
       setIsLoading(false);
     }
   };
@@ -67,6 +91,18 @@ export default function IndividualForm({ buttonGradient, buttonHoverGradient, ac
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+            {error}
+          </div>
+        )}
+        
+        {message && (
+          <div className="p-3 rounded-md bg-green-100 border border-green-200 text-green-700 text-sm">
+            {message}
+          </div>
+        )}
+
         <div className="grid grid-cols-2 gap-4">
           <ReusableFormField
             control={form.control}

@@ -10,37 +10,13 @@ import ProviderSelectionCard from "@/components/auth/ProviderSelectionCard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { type CarouselApi } from "@/components/ui/carousel";
+import { useState } from "react";
 
 type UserType = 'client' | 'provider' | null;
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
   const [userType, setUserType] = useState<UserType>(null);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-chart-4/5">
@@ -88,56 +64,10 @@ export default function RegisterPage() {
                   description="Select the plan that best fits your business needs"
                 />
 
-                <div className="hidden lg:grid lg:grid-cols-3 gap-8 pt-8">
+                <div className="grid md:grid-cols-3 gap-8 pt-8 space-y-8 mx-4">
                   <IndividualFreeAccountCard />
                   <IndividualProAccountCard />
                   <BusinessAccountCard />
-                </div>
-
-                <div className="lg:hidden pt-16">
-                  <Carousel 
-                    setApi={setApi}
-                    className="w-full max-w-md mx-auto"
-                    opts={{
-                      align: "center",
-                      loop: true,
-                    }}
-                  >
-                    <CarouselContent className="ml-0 pt-6 pb-4">
-                      <CarouselItem className="pl-0 pr-0 flex justify-center">
-                        <div className="w-full max-w-sm">
-                          <IndividualFreeAccountCard />
-                        </div>
-                      </CarouselItem>
-                      <CarouselItem className="pl-0 pr-0 flex justify-center">
-                        <div className="w-full max-w-sm">
-                          <IndividualProAccountCard />
-                        </div>
-                      </CarouselItem>
-                      <CarouselItem className="pl-0 pr-0 flex justify-center">
-                        <div className="w-full max-w-sm">
-                          <BusinessAccountCard />
-                        </div>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious className="-left-6" />
-                    <CarouselNext className="-right-6" />
-                  </Carousel>
-                  
-                  <div className="flex justify-center mt-6 space-x-2">
-                    {Array.from({ length: count }, (_, index) => (
-                      <button
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          current === index + 1 
-                            ? "bg-primary scale-125" 
-                            : "bg-muted hover:bg-muted-foreground/30"
-                        }`}
-                        onClick={() => api?.scrollTo(index)}
-                        aria-label={`Go to slide ${index + 1}`}
-                      />
-                    ))}
-                  </div>
                 </div>
 
                 <div className="text-center">
