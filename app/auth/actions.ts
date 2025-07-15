@@ -7,6 +7,7 @@ import {
   loginSchema,
   businessRegistrationSchema,
   individualRegistrationSchema,
+  clientRegistrationSchema,
 } from "@/lib/validations";
 
 export async function login(formData: FormData) {
@@ -80,10 +81,18 @@ export async function signupBusiness(formData: FormData) {
     options: {
       data: {
         user_type: "business",
+        account_type: businessData.accountType,
         business_name: businessData.businessName,
         first_name: businessData.firstName,
         last_name: businessData.lastName,
         phone: businessData.phoneNumber,
+        business_category: businessData.businessCategory,
+        team_members: businessData.teamMembers,
+        country: businessData.country,
+        state_province: businessData.stateProvince,
+        address: businessData.address,
+        postal_code: businessData.postalCode,
+        full_name: `${businessData.firstName} ${businessData.lastName}`,
       },
     },
   });
@@ -94,71 +103,7 @@ export async function signupBusiness(formData: FormData) {
     );
   }
 
-  if (authData.user) {
-    try {
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .insert({
-          user_id: authData.user.id,
-          user_type: "business",
-          account_tier: "free",
-          first_name: businessData.firstName,
-          last_name: businessData.lastName,
-          email: email,
-          phone: businessData.phoneNumber,
-        })
-        .select()
-        .single();
-
-      if (profileError) {
-        console.error("Error creating profile:", profileError);
-      } else {
-        const { error: businessError } = await supabase
-          .from("business_details")
-          .insert({
-            profile_id: profile.id,
-            business_name: businessData.businessName,
-            business_category: businessData.businessCategory,
-            team_members: businessData.teamMembers,
-          });
-
-        if (businessError) {
-          console.error("Error creating business details:", businessError);
-        }
-
-        const { error: addressError } = await supabase
-          .from("addresses")
-          .insert({
-            profile_id: profile.id,
-            type: "business",
-            country: businessData.country,
-            state_province: businessData.stateProvince,
-            address_line_1: businessData.address,
-            postal_code: businessData.postalCode,
-            is_default: true,
-          });
-
-        if (addressError) {
-          console.error("Error creating address:", addressError);
-        }
-
-        const { error: subscriptionError } = await supabase
-          .from("subscriptions")
-          .insert({
-            profile_id: profile.id,
-            plan_name: "Business Free",
-            plan_tier: "free",
-            status: "active",
-          });
-
-        if (subscriptionError) {
-          console.error("Error creating subscription:", subscriptionError);
-        }
-      }
-    } catch (error) {
-      console.error("Error in profile creation process:", error);
-    }
-  }
+  console.log("User created successfully:", authData.user?.id);
 
   revalidatePath("/", "layout");
   redirect(
@@ -200,10 +145,16 @@ export async function signupIndividual(formData: FormData) {
     options: {
       data: {
         user_type: "individual",
+        account_type: individualData.accountType,
         first_name: individualData.firstName,
         last_name: individualData.lastName,
         phone: individualData.phoneNumber,
-        account_type: individualData.accountType,
+        service_category: individualData.serviceCategory,
+        country: individualData.country,
+        state_province: individualData.stateProvince,
+        address: individualData.address,
+        postal_code: individualData.postalCode,
+        full_name: `${individualData.firstName} ${individualData.lastName}`,
       },
     },
   });
@@ -214,74 +165,7 @@ export async function signupIndividual(formData: FormData) {
     );
   }
 
-  if (authData.user) {
-    try {
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .insert({
-          user_id: authData.user.id,
-          user_type: "individual",
-          account_tier:
-            individualData.accountType === "individual-pro" ? "pro" : "free",
-          first_name: individualData.firstName,
-          last_name: individualData.lastName,
-          email: email,
-          phone: individualData.phoneNumber,
-        })
-        .select()
-        .single();
-
-      if (profileError) {
-        console.error("Error creating profile:", profileError);
-      } else {
-        const { error: individualError } = await supabase
-          .from("individual_details")
-          .insert({
-            profile_id: profile.id,
-            service_category: individualData.serviceCategory,
-          });
-
-        if (individualError) {
-          console.error("Error creating individual details:", individualError);
-        }
-
-        const { error: addressError } = await supabase
-          .from("addresses")
-          .insert({
-            profile_id: profile.id,
-            type: "primary",
-            country: individualData.country,
-            state_province: individualData.stateProvince,
-            address_line_1: individualData.address,
-            postal_code: individualData.postalCode,
-            is_default: true,
-          });
-
-        if (addressError) {
-          console.error("Error creating address:", addressError);
-        }
-
-        const { error: subscriptionError } = await supabase
-          .from("subscriptions")
-          .insert({
-            profile_id: profile.id,
-            plan_name:
-              individualData.accountType === "individual-pro"
-                ? "Individual Pro"
-                : "Individual Free",
-            plan_tier:
-              individualData.accountType === "individual-pro" ? "pro" : "free",
-            status: "active",
-          });
-
-        if (subscriptionError) {
-          console.error("Error creating subscription:", subscriptionError);
-        }
-      }
-    } catch (error) {
-      console.error("Error in profile creation process:", error);
-    }
-  }
+  console.log("User created successfully:", authData.user?.id);
 
   revalidatePath("/", "layout");
   redirect(
@@ -298,9 +182,16 @@ export async function signupClient(formData: FormData) {
   const phone = formData.get("phone") as string;
   const password = formData.get("password") as string;
 
-  // Basic server-side validation for security
-  if (!email || !password || !firstName || !lastName || !phone) {
-    redirect("/auth/register/client?error=Missing required fields");
+  const validatedData = clientRegistrationSchema.safeParse({
+    firstName,
+    lastName,
+    email,
+    phone,
+    password,
+  });
+
+  if (!validatedData.success) {
+    redirect("/auth/register/client?error=Invalid input data");
   }
 
   const { data: authData, error: authError } = await supabase.auth.signUp({
