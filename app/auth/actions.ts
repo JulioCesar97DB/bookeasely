@@ -64,7 +64,7 @@ export async function signupBusiness(formData: FormData) {
     stateProvince: formData.get("stateProvince") as string,
     address: formData.get("address") as string,
     postalCode: formData.get("postalCode") as string,
-    accountType: "business" as const,
+    accountType: formData.get("accountType") as string || "business",
   };
 
   const validatedData = businessRegistrationSchema.safeParse(rawData);
@@ -80,7 +80,6 @@ export async function signupBusiness(formData: FormData) {
     password,
     options: {
       data: {
-        user_type: "business",
         account_type: businessData.accountType,
         business_name: businessData.businessName,
         first_name: businessData.firstName,
@@ -144,7 +143,6 @@ export async function signupIndividual(formData: FormData) {
     password,
     options: {
       data: {
-        user_type: "individual",
         account_type: individualData.accountType,
         first_name: individualData.firstName,
         last_name: individualData.lastName,
@@ -180,7 +178,10 @@ export async function signupClient(formData: FormData) {
   const lastName = formData.get("lastName") as string;
   const email = formData.get("email") as string;
   const phone = formData.get("phone") as string;
+  const accountType = formData.get("accountType") as string || "client";
   const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
+
 
   const validatedData = clientRegistrationSchema.safeParse({
     firstName,
@@ -188,6 +189,8 @@ export async function signupClient(formData: FormData) {
     email,
     phone,
     password,
+    confirmPassword,
+    accountType,
   });
 
   if (!validatedData.success) {
@@ -204,6 +207,7 @@ export async function signupClient(formData: FormData) {
         last_name: lastName,
         full_name: `${firstName} ${lastName}`,
         phone: phone,
+        account_type: accountType,
       },
     },
   });

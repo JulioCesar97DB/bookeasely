@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { clientRegistrationSchema, type ClientRegistrationFormData } from "@/lib/validations";
 import { signupClient } from "@/app/auth/actions";
+import { accountTypes } from "@/constants";
 
 interface ClientFormProps {
   buttonGradient: string;
@@ -31,6 +32,7 @@ export default function ClientForm({ buttonGradient, buttonHoverGradient }: Clie
       password: "",
       confirmPassword: "",
       phone: "",
+      accountType: accountTypes.CLIENT,
     },
   });
 
@@ -56,6 +58,7 @@ export default function ClientForm({ buttonGradient, buttonHoverGradient }: Clie
       formData.append('lastName', data.lastName);
       formData.append('email', data.email);
       formData.append('phone', data.phone);
+      formData.append('accountType', data.accountType);
       formData.append('password', data.password);
       formData.append('confirmPassword', data.confirmPassword);
       

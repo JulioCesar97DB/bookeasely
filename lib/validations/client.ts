@@ -1,3 +1,4 @@
+import { accountTypes } from "@/constants";
 import { z } from "zod";
 
 export const clientRegistrationSchema = z
@@ -19,6 +20,8 @@ export const clientRegistrationSchema = z
       .regex(/^[\d\s\-\+\(\)]+$/, {
         message: "Please enter a valid phone number.",
       }),
+    accountType: z.literal(accountTypes.CLIENT),
+
     password: z.string().min(8, {
       message: "Password must be at least 8 characters.",
     }),
