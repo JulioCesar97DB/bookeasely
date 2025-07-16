@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -24,12 +24,9 @@ import {
 } from "@/components/ui/select";
 import {
   Calendar,
-  Clock,
   DollarSign,
   Users,
   Star,
-  Bell,
-  Settings,
   Plus,
   Edit,
   Trash2,
@@ -38,12 +35,10 @@ import {
   RotateCcw,
   User,
   Building2,
-  BarChart3,
-  CalendarDays,
   Scissors,
-  DoorClosed,
 } from "lucide-react";
-import { logout } from "@/app/auth/actions";
+import { DashboardHeader } from "@/components/common/DashboardHeader";
+import { DashboardTabsList } from "@/components/common/DashboardTabs";
 
 // Mock data
 const mockUser = {
@@ -191,37 +186,14 @@ export default function ProviderDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-primary/5">
       {/* Header */}
-      <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-foreground">BookEasely</h1>
-              <Badge variant="secondary" className="hidden sm:flex">
-                {mockUser.type === "individual" ? "Individual" : "Business"}{" "}
-                Dashboard
-              </Badge>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Button onClick={logout} variant="ghost" size="sm">
-                <DoorClosed className="h-4 w-4" />
-              </Button>
-              <Button variant="ghost" size="sm">
-                <Bell className="h-4 w-4" />
-              </Button>
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={mockUser.avatar || "/placeholder.svg"} />
-                <AvatarFallback>
-                  {mockUser.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader
+        title="BookEasely"
+        badgeText={mockUser.type === "individual" ? "Individual" : "Business"}
+        userInfo={{
+          name: mockUser.name,
+          avatar: mockUser.avatar || "/placeholder.svg",
+        }}
+      />
 
       <div className="container mx-auto px-4 py-8">
         <Tabs
@@ -230,57 +202,7 @@ export default function ProviderDashboard() {
           className="space-y-8"
         >
           {/* Navigation Tabs */}
-          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-7 h-auto p-1">
-            <TabsTrigger
-              value="overview"
-              className="flex items-center gap-2 py-3"
-            >
-              <BarChart3 className="h-4 w-4" />
-              <span className="hidden sm:inline">Overview</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="calendar"
-              className="flex items-center gap-2 py-3"
-            >
-              <CalendarDays className="h-4 w-4" />
-              <span className="hidden sm:inline">Calendar</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="services"
-              className="flex items-center gap-2 py-3"
-            >
-              <Scissors className="h-4 w-4" />
-              <span className="hidden sm:inline">Services</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="bookings"
-              className="flex items-center gap-2 py-3"
-            >
-              <Clock className="h-4 w-4" />
-              <span className="hidden sm:inline">Bookings</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="reviews"
-              className="flex items-center gap-2 py-3"
-            >
-              <Star className="h-4 w-4" />
-              <span className="hidden sm:inline">Reviews</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="availability"
-              className="flex items-center gap-2 py-3"
-            >
-              <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">Schedule</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="profile"
-              className="flex items-center gap-2 py-3"
-            >
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Profile</span>
-            </TabsTrigger>
-          </TabsList>
+          <DashboardTabsList userType="provider" />
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-8">

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -21,22 +21,20 @@ import {
   Star,
   Clock,
   DollarSign,
-  Calendar,
   Heart,
   Filter,
   User,
-  Bell,
-  Settings,
   Scissors,
   Palette,
   Briefcase,
   Dumbbell,
-  BookOpen,
   CheckCircle,
   XCircle,
   RotateCcw,
 } from "lucide-react";
 import Image from "next/image";
+import { DashboardHeader } from "@/components/common/DashboardHeader";
+import { DashboardTabsList } from "@/components/common/DashboardTabs";
 
 // Mock data for client
 const mockClient = {
@@ -177,33 +175,14 @@ export default function ClientDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-chart-2/5 to-chart-4/10">
       {/* Header */}
-      <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <h1 className="text-2xl font-bold text-foreground">BookEasely</h1>
-              <Badge variant="secondary" className="hidden sm:flex">
-                Client Dashboard
-              </Badge>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm">
-                <Bell className="h-4 w-4" />
-              </Button>
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={mockClient.avatar || "/placeholder.svg"} />
-                <AvatarFallback>
-                  {mockClient.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader
+        title="BookEasely"
+        badgeText="Client"
+        userInfo={{
+          name: mockClient.name,
+          avatar: mockClient.avatar || "/placeholder.svg",
+        }}
+      />
 
       <div className="container mx-auto px-4 py-8">
         <Tabs
@@ -212,43 +191,7 @@ export default function ClientDashboard() {
           className="space-y-8"
         >
           {/* Navigation Tabs */}
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 h-auto p-1">
-            <TabsTrigger
-              value="search"
-              className="flex items-center gap-2 py-3"
-            >
-              <Search className="h-4 w-4" />
-              <span className="hidden sm:inline">Search</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="bookings"
-              className="flex items-center gap-2 py-3"
-            >
-              <Calendar className="h-4 w-4" />
-              <span className="hidden sm:inline">My Bookings</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="favorites"
-              className="flex items-center gap-2 py-3"
-            >
-              <Heart className="h-4 w-4" />
-              <span className="hidden sm:inline">Favorites</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="history"
-              className="flex items-center gap-2 py-3"
-            >
-              <BookOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">History</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="profile"
-              className="flex items-center gap-2 py-3"
-            >
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline">Profile</span>
-            </TabsTrigger>
-          </TabsList>
+          <DashboardTabsList userType="client" />
 
           {/* Search Tab */}
           <TabsContent value="search" className="space-y-8">
