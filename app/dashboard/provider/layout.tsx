@@ -1,7 +1,11 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function DashboardRouter() {
+export default async function ProviderDashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = await createClient();
 
   const {
@@ -14,15 +18,11 @@ export default async function DashboardRouter() {
 
   const accountType = session.user.user_metadata.account_type;
 
-  if (accountType === "client") {
-    redirect("/dashboard/client");
-  } else if (
-    ["business", "individual-free", "individual-pro"].includes(accountType)
+  if (
+    !["business", "individual-free", "individual-pro"].includes(accountType)
   ) {
-    redirect("/dashboard/provider");
-  } else {
-    redirect("/dashboard/account-setup?error=account-type-undefined");
+    redirect("/dashboard");
   }
 
-  return null;
+  return <>{children}</>;
 }
