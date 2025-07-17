@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, LogOut } from "lucide-react";
+import { Bell, Calendar1, LogOut } from "lucide-react";
 import { logout } from "@/app/auth/actions";
 
 interface UserInfo {
@@ -26,8 +26,9 @@ export function DashboardHeader({
     <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+          <div className="flex items-center gap-2 hover:text-primary hover:cursor-pointer transition-colors">
+            <Calendar1 />
+            <h1 className="text-2xl font-bold">{title}</h1>
             <Badge variant="secondary" className="hidden sm:flex">
               {badgeText}
             </Badge>

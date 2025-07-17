@@ -12,13 +12,13 @@ import {
 
 export default function LandingPage() {
   return (
-    <main className="bg-background">
+    <main className="bg-background mt-6 lg:mt-0">
       <Header />
       <HeroSection />
       <UserTypesSection />
       <WhoIsForSection />
       <HowItWorksSection />
-      <FeaturesSection />F
+      <FeaturesSection />
       <PricingSection />
       <CTASection />
       <Footer />

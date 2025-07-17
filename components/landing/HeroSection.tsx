@@ -12,14 +12,14 @@ export function HeroSection() {
     <section id="home" className="min-h-screen flex items-center pt-16">
       <div className="container mx-auto px-12 grid lg:grid-cols-2 gap-12 items-center">
         <div className="space-y-6 text-center lg:text-left">
-          <h1 className="text-5xl lg:text-6xl font-bold text-foreground leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
             Find and book <span className="text-primary">services</span> or
             manage your <span className="text-primary">business</span>.
             Everything you need,{" "}
             <span className="text-primary">all in one place</span>.
           </h1>
 
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-md sm:text-lg text-muted-foreground leading-relaxed">
             The complete platform for clients and professionals. Book
             appointments, manage schedules, and grow your business.
           </p>

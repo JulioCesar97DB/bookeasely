@@ -10,7 +10,6 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-
 export const metadata: Metadata = {
   title: "BookEasely - Appointment & Booking Management",
   description:
@@ -24,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn("antialiased font-sans", fontSans.variable)}
-      >
+      <body className={cn("antialiased font-sans", fontSans.variable)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

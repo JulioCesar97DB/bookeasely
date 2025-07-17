@@ -27,7 +27,7 @@ export function UserTypesSection() {
           description="Whether you're booking services or offering them, we have the perfect solution for you"
         />
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-12 md:gap-8 max-w-7xl mx-auto">
           {userTypes.map((userType, index) => {
             const IconComponent = userType.icon;
             return (
@@ -44,8 +44,8 @@ export function UserTypesSection() {
                 />
 
                 {userType.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                    <span className="bg-gradient-to-r from-primary to-chart-2 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                    <span className="bg-gradient-to-r from-primary to-chart-2 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg whitespace-nowrap">
                       Most Popular
                     </span>
                   </div>

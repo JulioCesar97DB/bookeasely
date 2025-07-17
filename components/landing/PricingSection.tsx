@@ -16,7 +16,7 @@ export function PricingSection() {
           titleClassName="text-4xl lg:text-5xl font-bold text-foreground"
         />
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-12 md:gap-8 max-w-7xl mx-auto">
           <IndividualFreeAccountCard />
           <IndividualAccountCard />
           <BusinessAccountCard />
@@ -29,9 +29,7 @@ export function PricingSection() {
           </p>
           <p className="text-sm text-muted-foreground">
             Need something custom?{" "}
-            <button className="text-primary hover:underline">
-              Contact us
-            </button>{" "}
+            <button className="text-primary hover:underline">Contact us</button>{" "}
             for enterprise solutions.
           </p>
         </div>
