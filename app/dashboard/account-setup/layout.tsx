@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Loading } from "@/components/common/Loading";
 
-export default async function ClientDashboardLayout({
+export default async function AccountSetupLayout({
   children,
 }: {
   children: React.ReactNode;

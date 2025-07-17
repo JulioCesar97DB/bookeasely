@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,6 +39,8 @@ import {
 } from "lucide-react";
 import { DashboardHeader } from "@/components/common/DashboardHeader";
 import { DashboardTabsList } from "@/components/common/DashboardTabs";
+import { createClient } from "@/lib/supabase/client";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 
 // Mock data
 const mockUser = {
@@ -173,8 +175,29 @@ const mockReviews = [
 ];
 
 export default function ProviderDashboard() {
+  
   const [activeTab, setActiveTab] = useState("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  
+  // Usamos RSC para obtener la sesión del usuario
+  const [userData, setUserData] = useState<SupabaseUser | null>(null);
+  
+  // Usamos este hook para obtener el usuario del lado del cliente solo una vez
+  useEffect(() => {
+    async function loadUser() {
+      const supabase = createClient();
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error) {
+        console.error("Error fetching user:", error);
+        return;
+      }
+      
+      setUserData(user);
+    }
+    
+    loadUser();
+  }, []);
 
   const handleBookingAction = (
     bookingId: number,
@@ -188,10 +211,10 @@ export default function ProviderDashboard() {
       {/* Header */}
       <DashboardHeader
         title="BookEasely"
-        badgeText={mockUser.type === "individual" ? "Individual" : "Business"}
+        badgeText={userData?.user_metadata?.account_type || "Provider"}
         userInfo={{
-          name: mockUser.name,
-          avatar: mockUser.avatar || "/placeholder.svg",
+          name: userData?.user_metadata?.full_name || userData?.user_metadata?.name,
+          avatar: userData?.user_metadata?.avatar_url || userData?.user_metadata?.picture,
         }}
       />
 
@@ -210,10 +233,10 @@ export default function ProviderDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold text-foreground">
-                  Welcome back, {mockUser.name.split(" ")[0]}!
+                  Welcome back, {userData?.user_metadata?.first_name || userData?.user_metadata?.name?.split(" ")[0] || mockUser.name.split(" ")[0]}!
                 </h2>
                 <p className="text-muted-foreground">
-                  Here&apos;s what&apos;s happening with your business today
+                  Here&apos;s what&apos;s happening with your {userData?.user_metadata?.account_type === "business" ? "business" : "services"} today
                 </p>
               </div>
               <Button>

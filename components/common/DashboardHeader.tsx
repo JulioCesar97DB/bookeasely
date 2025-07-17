@@ -26,10 +26,10 @@ export function DashboardHeader({
     <header className="border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 hover:text-primary hover:cursor-pointer transition-colors">
+          <div className="flex items-center gap-2 text-primary">
             <Calendar1 />
             <h1 className="text-2xl font-bold">{title}</h1>
-            <Badge variant="secondary" className="hidden sm:flex">
+            <Badge variant="outline" className="hidden sm:flex capitalize text-primary">
               {badgeText}
             </Badge>
           </div>
@@ -49,13 +49,13 @@ export function DashboardHeader({
             <Avatar className="h-8 w-8">
               <AvatarImage
                 src={userInfo.avatar || "/placeholder.svg"}
-                alt={userInfo.name}
+                alt={userInfo.name || "User Avatar"}
               />
               <AvatarFallback>
-                {userInfo.name
-                  .split(" ")
+                {userInfo?.name
+                  ?.split(" ")
                   .map((n) => n[0])
-                  .join("")}
+                  .join("") || "U"}
               </AvatarFallback>
             </Avatar>
           </div>
