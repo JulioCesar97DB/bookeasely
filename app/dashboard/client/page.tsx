@@ -36,7 +36,6 @@ import Image from "next/image";
 import { DashboardHeader } from "@/components/common/DashboardHeader";
 import { DashboardTabsList } from "@/components/common/DashboardTabs";
 
-// Mock data for client
 const mockClient = {
   name: "John Doe",
   email: "john@example.com",
@@ -175,14 +174,7 @@ export default function ClientDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-chart-2/5 to-chart-4/10">
       {/* Header */}
-      <DashboardHeader
-        title="BookEasely"
-        badgeText="Client"
-        userInfo={{
-          name: mockClient.name,
-          avatar: mockClient.avatar || "/placeholder.svg",
-        }}
-      />
+      <DashboardHeader title="BookEasely" badgeText="Client" />
 
       <div className="container mx-auto px-4 py-8">
         <Tabs

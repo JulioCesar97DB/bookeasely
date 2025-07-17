@@ -212,10 +212,6 @@ export default function ProviderDashboard() {
       <DashboardHeader
         title="BookEasely"
         badgeText={userData?.user_metadata?.account_type || "Provider"}
-        userInfo={{
-          name: userData?.user_metadata?.full_name || userData?.user_metadata?.name,
-          avatar: userData?.user_metadata?.avatar_url || userData?.user_metadata?.picture,
-        }}
       />
 
       <div className="container mx-auto px-4 py-8">

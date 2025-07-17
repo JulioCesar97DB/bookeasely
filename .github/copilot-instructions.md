@@ -29,7 +29,7 @@ BookEasely is a Next.js application for appointment booking and business managem
 
 ## Key Development Patterns
 
-### Authentication Pattern
+### Authentication & Authorization Pattern
 ```typescript
 // Server-side authentication (app/auth/actions.ts)
 export async function login(formData: FormData) {
@@ -45,6 +45,22 @@ const form = useForm<LoginData>({
 });
 ```
 
+The application uses middleware-based route protection with user role-specific access controls:
+- All protected routes require Supabase authentication
+- User flows are restricted based on account types in user metadata
+- Route protection is implemented in `middleware.ts` and `lib/supabase/middleware.ts`
+
+### Multi-User Account System
+BookEasely supports multiple user types with different capabilities:
+- **Client**: End users booking appointments
+- **Individual Provider**: Solo service providers (free and pro tiers)
+- **Business**: Organizations with multiple staff members
+
+Each user type has:
+- Custom registration form with type-specific fields
+- Dedicated dashboard experience
+- Role-specific middleware protection
+
 ### Component Patterns
 - **UI Components**: Wrapper components around Radix primitives in `/components/ui`
 - **Form Fields**: Use `ReusableFormField` for consistent form inputs with icon support
@@ -54,7 +70,8 @@ const form = useForm<LoginData>({
 ### Styling Conventions
 - Use the `cn()` utility from `lib/utils.ts` for combining Tailwind classes
 - Theme-aware styling with CSS variables and next-themes
-- Gradient configurations are passed as props to components
+- Gradient configurations are passed as props to components through `registration-configs.tsx`
+- Custom color scheme defined in Tailwind config with chart-1 through chart-5 colors
 
 ## Development Workflow
 
@@ -88,16 +105,16 @@ Required in `.env.local`:
 - **Component**: Create in appropriate `/components` subdirectory
 - **Database**: Update Supabase schema and add to relevant server actions
 
-## Authentication & Authorization
-- Authentication flows use Supabase SSR with middleware protection
-- Route protection is implemented in `middleware.ts` and `lib/supabase/middleware.ts`
-- User role-specific routes use layout-based protection in dashboard section
-
-## Mobile Testing
-- Use `npm run dev:mobile` to make the site accessible from mobile devices
-- Access via local IP address and port 3000 (e.g., 192.168.1.x:3000)
-
 ## Key Integration Points
 - **Supabase**: Authentication and data storage through `lib/supabase` utilities
+  - `client.ts` - Browser client
+  - `server.ts` - Server-side client
+  - `middleware.ts` - Auth middleware with route protection
 - **next-themes**: Dark/light mode theming with `components/theme-provider.tsx`
 - **shadcn/ui**: UI components extended from `/components/ui`
+- **React Hook Form**: Form state management with Zod validation
+
+## Testing & Debugging
+- **Mobile Testing**: Use `npm run dev:mobile` and access via local IP (192.168.x.x:3000)
+- **Auth Flow Testing**: Test different account types and middleware redirects
+- **Form Validation**: Check error handling in Zod schemas and form displays

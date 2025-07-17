@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 import { logout } from "@/app/auth/actions";
+import UserProfileDisplay from "@/components/common/UserProfileDisplay";
 
 export default function AccountSetupPage() {
   const searchParams = useSearchParams();
@@ -31,10 +32,15 @@ export default function AccountSetupPage() {
               ? "No pudimos determinar el tipo de tu cuenta. Es posible que tu perfil no esté correctamente configurado en el sistema."
               : "Tu cuenta requiere configuración adicional antes de continuar."}
           </p>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-sm mb-4">
             Por favor, ponte en contacto con soporte técnico para resolver este
             problema, o intenta cerrar sesión y volver a iniciarla.
           </p>
+          
+          <div className="mt-6 border-t pt-4">
+            <h3 className="font-medium mb-2">Información de tu cuenta:</h3>
+            <UserProfileDisplay />
+          </div>
         </CardContent>
         <CardFooter className="flex flex-col sm:flex-row gap-2">
           <Button
