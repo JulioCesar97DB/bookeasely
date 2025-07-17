@@ -10,6 +10,7 @@ import { ReusableFormField } from "@/components/common/ReusableFormField";
 import { loginSchema, type LoginData } from "@/lib/validations";
 import { Separator } from "@/components/ui/separator";
 import { login } from "@/app/auth/actions";
+import { createClient } from "@/lib/supabase/client";
 
 interface LoginFormProps {
   buttonGradient: string;
@@ -158,7 +159,16 @@ export default function LoginForm({
             type="button"
             variant="outline"
             className="w-full h-12 text-base font-medium border-2 hover:bg-muted/50 bg-transparent"
-            onClick={() => handleSocialLogin("google")}
+            onClick={async () => {
+              const supabase = createClient();
+              await supabase.auth.signInWithOAuth({
+                provider: "google",
+                options: {
+                  redirectTo:
+                    "http://localhost:3000/dashboard",
+                },
+              });
+            }}
             disabled={socialLoading !== null || isLoading}
           >
             {socialLoading === "google" ? (
