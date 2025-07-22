@@ -13,6 +13,7 @@ import {
   Clock,
   Star,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type UserType = "client" | "provider";
 
@@ -61,10 +62,13 @@ export function DashboardTabsList({
       {tabs.map((tab) => {
         const IconComponent = tab.icon;
         return (
-          <TabsTrigger
+            <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="flex items-center gap-2 py-3"
+            className={cn(
+              "flex items-center gap-2 py-3 transition-colors",
+              "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            )}
           >
             <IconComponent className="h-4 w-4" />
             <span className="hidden sm:inline">{tab.label}</span>

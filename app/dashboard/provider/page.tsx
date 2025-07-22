@@ -175,27 +175,29 @@ const mockReviews = [
 ];
 
 export default function ProviderDashboard() {
-  
   const [activeTab, setActiveTab] = useState("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  
+
   // Usamos RSC para obtener la sesión del usuario
   const [userData, setUserData] = useState<SupabaseUser | null>(null);
-  
+
   // Usamos este hook para obtener el usuario del lado del cliente solo una vez
   useEffect(() => {
     async function loadUser() {
       const supabase = createClient();
-      const { data: { user }, error } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+
       if (error) {
         console.error("Error fetching user:", error);
         return;
       }
-      
+
       setUserData(user);
     }
-    
+
     loadUser();
   }, []);
 
@@ -229,10 +231,18 @@ export default function ProviderDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-3xl font-bold text-foreground">
-                  Welcome back, {userData?.user_metadata?.first_name || userData?.user_metadata?.name?.split(" ")[0] || mockUser.name.split(" ")[0]}!
+                  Welcome back,{" "}
+                  {userData?.user_metadata?.first_name ||
+                    userData?.user_metadata?.name?.split(" ")[0] ||
+                    mockUser.name.split(" ")[0]}
+                  !
                 </h2>
                 <p className="text-muted-foreground">
-                  Here&apos;s what&apos;s happening with your {userData?.user_metadata?.account_type === "business" ? "business" : "services"} today
+                  Here&apos;s what&apos;s happening with your{" "}
+                  {userData?.user_metadata?.account_type === "business"
+                    ? "business"
+                    : "services"}{" "}
+                  today
                 </p>
               </div>
               <Button>
