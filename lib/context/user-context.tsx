@@ -1,73 +1,33 @@
+// app/context/UserContext.tsx
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
-import { User } from "@supabase/supabase-js";
-import { createClient } from "../supabase/client";
+import { createContext, useContext, useState, ReactNode } from "react";
+import type { User } from "@supabase/supabase-js";
 
-type UserContextType = {
+interface UserContextType {
   user: User | null;
   isLoading: boolean;
-  refreshUser: () => Promise<void>;
-};
+}
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType>({
+  user: null,
+  isLoading: false,
+});
 
-export function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClient();
+interface Props {
+  children: ReactNode;
+  initialUser: User | null;
+}
 
-  const refreshUser = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error("Error fetching user:", error);
-        setUser(null);
-      } else {
-        setUser(data.user);
-      }
-    } catch (error) {
-      console.error("Unexpected error fetching user:", error);
-      setUser(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [supabase.auth]);
-
-  useEffect(() => {
-    // Initial user fetch
-    refreshUser();
-
-    // Setup auth state change listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session) {
-          setUser(session.user);
-        } else {
-          setUser(null);
-        }
-        setIsLoading(false);
-      }
-    );
-
-    // Cleanup subscription on unmount
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase.auth, refreshUser]);
+export const UserProvider = ({ children, initialUser }: Props) => {
+  const [user] = useState<User | null>(initialUser);
+  const [isLoading] = useState(false); // puedes manejar loading si luego agregas lógica de refresh
 
   return (
-    <UserContext.Provider value={{ user, isLoading, refreshUser }}>
+    <UserContext.Provider value={{ user, isLoading }}>
       {children}
     </UserContext.Provider>
   );
-}
+};
 
-export function useUser() {
-  const context = useContext(UserContext);
-  if (context === undefined) {
-    throw new Error("useUser must be used within a UserProvider");
-  }
-  return context;
-}
+export const useUser = () => useContext(UserContext);

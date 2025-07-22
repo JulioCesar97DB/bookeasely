@@ -1,17 +1,16 @@
-"use client";
-
 import { UserProvider } from "@/lib/context/user-context";
-import { Suspense } from "react";
-import { Loading } from "@/components/common/Loading";
+import { createClient } from "@/lib/supabase/server";
 
-export default function DashboardLayout({
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <UserProvider>
-      <Suspense fallback={<Loading />}>{children}</Suspense>
-    </UserProvider>
-  );
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return <UserProvider initialUser={user}>{children}</UserProvider>;
 }

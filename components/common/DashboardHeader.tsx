@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Calendar1, LogOut } from "lucide-react";
 import { logout } from "@/app/auth/actions";
 import { useUser } from "@/lib/context/user-context";
-import { useEffect, useState } from "react";
 
 interface DashboardHeaderProps {
   title?: string;
@@ -15,29 +14,16 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({
   title = "BookEasely",
-  badgeText = "Dashboard",
 }: DashboardHeaderProps) {
   const { user } = useUser();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  console.log(user);
 
   const userName =
-    mounted && user
-      ? `${user.user_metadata?.firstName || ""} ${
-          user.user_metadata?.lastName || ""
-        }`.trim() ||
-        user.email?.split("@")[0] ||
-        "Usuario"
-      : "Usuario";
+    `${user?.user_metadata?.firstName || ""}`.trim() ||
+    user?.email?.split("@")[0];
 
   const getInitials = (name: string): string => {
-    if (!mounted) return "U";
-
-    if (!name || name === "Usuario") return "U";
-
     return (
       name
         .split(" ")
@@ -60,7 +46,7 @@ export function DashboardHeader({
               variant="outline"
               className="hidden sm:flex capitalize text-primary"
             >
-              {badgeText}
+              {user?.user_metadata.account_type || "Provider"}
             </Badge>
           </div>
 
@@ -77,10 +63,11 @@ export function DashboardHeader({
               <Bell className="h-4 w-4" />
             </Button>
             <Avatar className="h-8 w-8">
-              <AvatarImage src={user?.user_metadata?.avatar_url} alt={userName} />
-              <AvatarFallback>
-                {mounted ? getInitials(userName) : "U"}
-              </AvatarFallback>
+              <AvatarImage
+                src={user?.user_metadata?.avatar_url}
+                alt="User Avatar"
+              />
+              <AvatarFallback>{getInitials(userName ?? "User")}</AvatarFallback>
             </Avatar>
           </div>
         </div>
