@@ -1,0 +1,1 @@
+ALTER TABLE profiles ALTER COLUMN user_id SET DATA TYPE UUID USING (uuid_generate_v4())
