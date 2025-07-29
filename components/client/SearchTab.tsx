@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "../ui/card";
-import { Filter, Search, Heart, Star, MapPin, DollarSign, Scissors, Palette, Briefcase, Dumbbell, Clock } from "lucide-react";
+import {
+  Filter,
+  Search,
+  Heart,
+  Star,
+  MapPin,
+  DollarSign,
+  Scissors,
+  Palette,
+  Briefcase,
+  Dumbbell,
+  Clock,
+} from "lucide-react";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -67,7 +79,7 @@ const serviceCategories = [
   { name: "Fitness & Sports", icon: Dumbbell, count: 34 },
 ];
 
-export const SearchTab = () => {
+const SearchTab = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("current");
@@ -76,7 +88,7 @@ export const SearchTab = () => {
     console.log(`Book service with provider ${providerId}`);
   };
 
-    const handleToggleFavorite = (providerId: number) => {
+  const handleToggleFavorite = (providerId: number) => {
     console.log(`Toggle favorite for provider ${providerId}`);
   };
 
@@ -274,3 +286,5 @@ export const SearchTab = () => {
     </>
   );
 };
+
+export default SearchTab;
