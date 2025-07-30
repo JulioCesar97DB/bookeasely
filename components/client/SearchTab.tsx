@@ -94,7 +94,6 @@ const SearchTab = () => {
 
   return (
     <>
-      {/* Welcome Section */}
       <div className="text-center space-y-4">
         <h2 className="text-3xl font-bold text-foreground">
           Find the perfect service provider
@@ -104,7 +103,6 @@ const SearchTab = () => {
         </p>
       </div>
 
-      {/* Search Bar */}
       <Card className="shadow-lg">
         <CardContent className="pt-6">
           <div className="flex flex-col lg:flex-row gap-4">
@@ -158,7 +156,6 @@ const SearchTab = () => {
         </CardContent>
       </Card>
 
-      {/* Service Categories */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {serviceCategories.map((category) => {
           const IconComponent = category.icon;
@@ -181,7 +178,6 @@ const SearchTab = () => {
         })}
       </div>
 
-      {/* Search Results */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">Featured Providers</h3>

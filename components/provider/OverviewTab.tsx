@@ -71,7 +71,6 @@ const OverviewTab = () => {
 
   return (
     <>
-      {/* Welcome Section */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-bold text-foreground">
@@ -95,7 +94,6 @@ const OverviewTab = () => {
         </Button>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -154,7 +152,6 @@ const OverviewTab = () => {
         </Card>
       </div>
 
-      {/* Upcoming Bookings */}
       <Card>
         <CardHeader>
           <CardTitle>Upcoming Bookings</CardTitle>

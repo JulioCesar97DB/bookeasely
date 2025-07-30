@@ -17,7 +17,6 @@ export default function ClientDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-chart-2/5 to-chart-4/10">
-      {/* Header */}
       <DashboardHeader title="BookEasely" badgeText="Client" />
 
       <div className="container mx-auto px-4 py-8">
