@@ -1,7 +1,6 @@
 import { UserProvider } from "@/lib/context/user-context";
 import { createClient } from "@/lib/supabase/server";
 
-
 export default async function DashboardLayout({
   children,
 }: {

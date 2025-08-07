@@ -2,12 +2,6 @@
 
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
   Search,
   Calendar,
   Heart,
@@ -59,31 +53,23 @@ export function DashboardTabsList({
   const tabs = userType === "client" ? clientTabs : providerTabs;
 
   return (
-    <TooltipProvider>
-      <TabsList className={`w-full h-auto p-1 ${className}`}>
-        {tabs.map((tab) => {
-          const IconComponent = tab.icon;
-          return (
-            <Tooltip key={tab.value}>
-              <TooltipTrigger asChild>
-                <TabsTrigger
-                  value={tab.value}
-                  className={cn(
-                    "flex items-center gap-2 py-3 transition-colors",
-                    "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  )}
-                >
-                  <IconComponent className="h-4 w-4" />
-                  <span className="hidden md:inline">{tab.label}</span>
-                </TabsTrigger>
-              </TooltipTrigger>
-              <TooltipContent className="md:hidden">
-                {tab.label}
-              </TooltipContent>
-            </Tooltip>
-          );
-        })}
-      </TabsList>
-    </TooltipProvider>
+    <TabsList className={`w-full h-auto p-1 ${className}`}>
+      {tabs.map((tab) => {
+        const IconComponent = tab.icon;
+        return (
+          <TabsTrigger
+            key={tab.value}
+            value={tab.value}
+            className={cn(
+              "flex items-center gap-2 py-3 transition-colors",
+              "data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            )}
+          >
+            <IconComponent className="h-4 w-4" />
+            <span className="hidden md:inline">{tab.label}</span>
+          </TabsTrigger>
+        );
+      })}
+    </TabsList>
   );
 }
